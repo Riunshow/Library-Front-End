@@ -20,7 +20,7 @@
 			<el-button type="text">继续</el-button>
 		</div>
 		<div class="logout">
-			<el-button type="text">安全退出</el-button>
+			<el-button type="text" @click="logout">安全退出</el-button>
 		</div>
 	</div>
 </template>
@@ -39,13 +39,12 @@
 				},
 			};
 		},
-		mounted(){
+		mounted() {
 			this.getData()
 		},
 		methods: {
 			getData() {
 				const user = JSON.parse(sessionStorage.user)
-
 				if (sessionStorage.user) {
 					this.username = user.username
 					this.experience = user.experience
@@ -54,6 +53,13 @@
 					this.memoryBook.chapter = user.memoryBook.chapter
 					this.memoryBook.chpaterHead = user.memoryBook.chpaterHead
 				}
+			},
+			logout() {
+				this.$axios.post('/user/logout')
+					.then(() => {
+						sessionStorage.clear();
+						location.reload()
+					})
 			}
 		}
 	}
@@ -70,7 +76,7 @@
 				height: 70px;
 				width: 70px;
 				border-radius: 35px;
-				background-color: black;
+				background-color: #e0e0e0;
 				float: left;
 			}
 			h2,

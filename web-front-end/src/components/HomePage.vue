@@ -1,19 +1,20 @@
 <template>
-  <header-nav />
+  <div>
+    <header-nav />
+    <select-model />
+  </div>
 </template>
 
 <script>
   import HeaderNav from './common/Header'
+  import SelectModel from './HomePage/Select'
   export default {
     components: {
-      HeaderNav
+      HeaderNav,
+      SelectModel,
     },
     data() {
       return {};
     }
   }
 </script>
-
-<style lang="css" scoped>
-
-</style>

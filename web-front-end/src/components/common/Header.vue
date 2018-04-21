@@ -1,10 +1,10 @@
 <template>
 	<div class="headerModel">
 		<div class="logoimg">
-			<img src="./../../assets/logo.png" alt="">
+			<img src="./../../assets/logo.png" alt="" @click="toHomePage">
 		</div>
 		<!-- 菜单 -->
-		<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+		<el-menu class="el-menu-demo" mode="horizontal" @select="handleSelect">
 			<el-menu-item index="1">免费书籍</el-menu-item>
 			<el-menu-item index="2">操场</el-menu-item>
 			<el-menu-item index="3">手记</el-menu-item>
@@ -12,7 +12,6 @@
 		<!-- 搜索框 -->
 		<el-input placeholder="请输入图书名称" v-model="search" clearable></el-input>
 		<el-row>
-			
 			<!-- 已登录 -->
 			<div v-if="isLogin">
 				<el-popover ref="popoverInfo" placement="bottom" width="300" v-model="info" trigger="hover">
@@ -60,8 +59,6 @@
 		},
 		data() {
 			return {
-				activeIndex: '1',
-				activeIndex2: '1',
 				search: '',
 				appupload: false,
 				info: false,
@@ -95,6 +92,11 @@
 			},
 			isHasData() {
 				sessionStorage.user ? this.isLogin = true : this.isLogin = false
+			},
+			toHomePage() {
+				this.$router.push({
+					path: '/home'
+				})
 			}
 		}
 	}
@@ -123,6 +125,10 @@
 			float: left;
 			li {
 				margin-right: 20px;
+				color: #000;
+			}
+			li:hover {
+				background-color: #e0e0e0;
 			}
 		}
 		.el-input {
@@ -155,6 +161,9 @@
 				float: right;
 				margin-top: 5px;
 				margin-right: 30px;
+			}
+			img:hover {
+				background-color: #e0e0e0;
 			}
 		}
 	}
