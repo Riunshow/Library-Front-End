@@ -4,8 +4,8 @@
 			<img src="./../../assets/logo.png" alt="" @click="toHomePage">
 		</div>
 		<!-- 菜单 -->
-		<el-menu class="el-menu-demo" mode="horizontal" @select="handleSelect">
-			<el-menu-item index="1">免费书籍</el-menu-item>
+		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect" router>
+			<el-menu-item index="/home">首页</el-menu-item>
 			<el-menu-item index="2">操场</el-menu-item>
 			<el-menu-item index="3">手记</el-menu-item>
 		</el-menu>

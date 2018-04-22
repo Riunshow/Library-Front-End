@@ -116,6 +116,7 @@
 				li:hover {
 					background-color: #E0E0E0;
 					color: #000;
+					cursor: pointer;
 				}
 			}
 		}
