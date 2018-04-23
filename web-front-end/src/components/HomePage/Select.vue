@@ -284,10 +284,11 @@
 		width: 1100px;
 		margin-left: auto;
 		margin-right: auto;
-		margin-top: 50px;
+		margin-top: 110px;
 		background-color: rgb(251,251,251);
 		border-radius: 10px;
 		box-shadow: 0 12px 24px 0 rgba(7,17,27,.2);
+		min-width: 1100px;
 		.asideSelect {
 			height: 400px;
 			width: 200px;

@@ -6,7 +6,7 @@
 		<!-- 菜单 -->
 		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect" router>
 			<el-menu-item index="/home">首页</el-menu-item>
-			<el-menu-item index="2">操场</el-menu-item>
+			<el-menu-item index="/ground">操场</el-menu-item>
 			<el-menu-item index="3">手记</el-menu-item>
 		</el-menu>
 		<!-- 搜索框 -->
@@ -109,6 +109,10 @@
 		height: 60px;
 		width: 100%;
 		box-shadow: 0 4px 8px 0 rgba(7, 17, 27, .1);
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 200;
 		.logoimg {
 			height: 100%;
 			width: 200px; // margin-left: 30px; 
