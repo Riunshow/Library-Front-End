@@ -59,11 +59,13 @@
 					width: 300px;
 					height: 600px;
 					padding-left: 15px;
+					background-color: beige;
 					.optionsDetail {
 						width: 250px;
 						height: 400px;
 						position: fixed;
 						background-color: rgb(255, 255, 255);
+						box-shadow: 0 1px 3px rgba(26,26,26,.1);
 					}
 				}
 			}
