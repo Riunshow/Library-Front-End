@@ -88,6 +88,16 @@ video {
 }
 
 
+/* personal */
+
+.ql-container.ql-snow {
+    /* border: 0 !important; */
+}
+
+
+/* end */
+
+
 /* HTML5 display-role reset for older browsers */
 
 article,
@@ -106,6 +116,11 @@ section {
 
 body {
     line-height: 1;
+}
+
+a {
+    text-decoration: none;
+    /* color: #333; */
 }
 
 ol,

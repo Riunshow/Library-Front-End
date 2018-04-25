@@ -27,7 +27,7 @@
 			<!-- 未登录 -->
 			<div v-else>
 				<el-button class="login" type="text" @click="dialogFormVisible = true">登录</el-button>
-				<el-dialog title="登录" :visible.sync="dialogFormVisible">
+				<el-dialog title="登录" :visible.sync="dialogFormVisible" :modal-append-to-body="false">
 					<el-form :model="form">
 						<el-form-item label="用户名" :label-width="formLabelWidth">
 							<el-input v-model="form.name" auto-complete="off"></el-input>
@@ -112,11 +112,10 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		z-index: 200;
+		z-index: 100;
 		.logoimg {
 			height: 100%;
-			width: 200px; // margin-left: 30px; 
-			// background-color: antiquewhite;
+			width: 200px;
 			float: left;
 			text-align: center;
 			img {

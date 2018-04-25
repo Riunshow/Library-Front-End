@@ -1,7 +1,7 @@
 <template>
 	<div id="messageModel">
 		<div class="msgOpt">
-			<div class="detailOpt">
+			<div class="detailOpt" @click="routeToWrite">
 				<i class="el-icon-edit"></i> 写想法
 			</div>
 			<div class="detailOpt">
@@ -12,21 +12,13 @@
 			</div>
 		</div>
 		<!-- 发表内容 -->
-		<msg-model 
-			v-for="(item, index) in message" 
-			:key="index" 
-			:title="item.title" 
-			:content="item.content" 
-			:commentsCount="item.commentsCount" 
-			:agreeCount="item.agreeCount"
-			:comments="item.comments"
-		/>
+		<msg-model v-for="(item, index) in message" :key="index" :title="item.title" :content="item.content" :commentsCount="item.commentsCount" :agreeCount="item.agreeCount" :comments="item.comments" />
 		<!-- 结束 -->
 	</div>
 </template>
 
 <script>
-import MsgModel from './MsgModel'
+	import MsgModel from './MsgModel'
 	export default {
 		components: {
 			MsgModel,
@@ -36,9 +28,39 @@ import MsgModel from './MsgModel'
 				message: [{
 					title: '什么情况下你会毫不犹豫地辞职？',
 					content: '在校期间我的大部分精力花在c++上，但是也比较擅长js，校招的时候阴差阳错得做了前端，感觉自己的c++水平无用武之地，怎么破？只知道可以写webassembly，node拓展，但是工作中根本没有应用场景，大家都是在什么情况下用到c++的？在校期间我的大部分精力花在c++上，但是也比较擅长js，校招的时候阴差阳错得做了前端，感觉自己的c++水平无用武之地，怎么破？只知道可以写webassembly，node拓展，但是工作中根本没有应用场景，大家都是在什么情况下用到c++的？',
-					commentsCount: 12,
 					agreeCount: 10,
+					commentsCount: 6,
 					comments: [{
+						headImg: require('./../../assets/logo.png'),
+						name: 'utchi12138',
+						time: '3 天前',
+						content: '我觉得不错',
+						like: '30',
+					},{
+						headImg: require('./../../assets/logo.png'),
+						name: 'utchi12138',
+						time: '3 天前',
+						content: '我觉得不错',
+						like: '30',
+					},{
+						headImg: require('./../../assets/logo.png'),
+						name: 'utchi12138',
+						time: '3 天前',
+						content: '我觉得不错',
+						like: '30',
+					},{
+						headImg: require('./../../assets/logo.png'),
+						name: 'utchi12138',
+						time: '3 天前',
+						content: '我觉得不错',
+						like: '30',
+					},{
+						headImg: require('./../../assets/logo.png'),
+						name: 'utchi12138',
+						time: '3 天前',
+						content: '我觉得不错',
+						like: '30',
+					},{
 						headImg: require('./../../assets/logo.png'),
 						name: 'utchi12138',
 						time: '3 天前',
@@ -53,7 +75,11 @@ import MsgModel from './MsgModel'
 				}],
 			};
 		},
-
+		methods: {
+			routeToWrite() {
+				this.$router.push({path: '/write'})
+			}
+		}
 	}
 </script>
 
@@ -65,12 +91,16 @@ import MsgModel from './MsgModel'
 			height: 60px;
 			width: 100%;
 			background-color: rgb(255, 255, 255);
-			box-shadow: 0 1px 3px rgba(26,26,26,.1);
+			box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
 			.detailOpt {
 				line-height: 60px;
 				margin-left: 30px;
 				margin-right: 10px;
 				float: left;
+			}
+			.detailOpt:hover {
+				color: #1a1a1a;
+				cursor: pointer;
 			}
 			.draft {
 				line-height: 60px;
@@ -79,6 +109,5 @@ import MsgModel from './MsgModel'
 				color: #8590a6;
 			}
 		}
-
 	}
 </style>

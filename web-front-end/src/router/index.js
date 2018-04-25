@@ -13,6 +13,17 @@ const router = new Router({
         path: '/ground',
         name: 'Ground',
         component: require('@/components/PlayGround/PlayGround').default,
+    }, {
+        path: '/write',
+        name: 'Write',
+        component: require('@/components/Editor/Editor').default,
+        meta: {
+            requireAuth: true
+        }
+    }, {
+        path: '/403',
+        name: '403',
+        component: require('@/components/common/403').default,
     }],
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
@@ -31,7 +42,13 @@ router.beforeEach((to, from, next) => {
         })
     }
     if (to.meta.requireAuth) {
-        console.log(1)
+        if (sessionStorage.user) {
+            next()
+        } else {
+            next({
+                path: '/403'
+            })
+        }
 
     } else {
         next()

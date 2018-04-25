@@ -63,11 +63,14 @@
 								<div class="item_info">
 									<span>{{item.content}}</span>
 								</div>
-								<div class="item_options">
-									<span><i class="el-icon-check"></i>{{item.like}}</span>
-									<span><i class="el-icon-edit"></i>回复</span>
-									<span><i class="el-icon-phone-outline"></i>举报</span>
-								</div>
+								<reply-model :likes="item.like" />
+							</div>
+						</div>
+						<!-- 分页 -->
+						<div class="sorter" v-show="showSorter">
+							<div class="block">
+								<el-pagination layout="prev, pager, next" :page-size="5" :total="commentsCount">
+								</el-pagination>
 							</div>
 						</div>
 						<!-- 输入评论 -->
@@ -83,7 +86,11 @@
 </template>
 
 <script>
+	import ReplyModel from './ReplyModel'
 	export default {
+		components: {
+			ReplyModel
+		},
 		props: {
 			title: String,
 			content: String,
@@ -96,8 +103,12 @@
 				showAll: false,
 				showComments: false,
 				timeSort: true,
+				showSorter: false,
 				typeContent: '',
 			};
+		},
+		created() {
+			this.changeSorter()
 		},
 		computed: {
 			showData: function() {
@@ -134,11 +145,20 @@
 					return '收起评论'
 				}
 			},
-			changeSort:function() {
+			changeSort: function() {
 				if (this.timeSort == false) {
 					return '默认排序'
 				} else {
 					return '时间排序'
+				}
+			},
+		},
+		methods: {
+			changeSorter: function() {
+				if (this.commentsCount <= 5) {
+					this.showSorter = false
+				} else {
+					this.showSorter = true
 				}
 			},
 		}
@@ -232,7 +252,7 @@
 					}
 				}
 				.show_comments {
-					width: 100%; // height: 500px;
+					width: 100%;
 					margin-top: 10px;
 					border: 1px solid #ebebeb;
 					box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
@@ -240,7 +260,7 @@
 						height: 100%;
 						width: 610px;
 						margin-left: auto;
-						margin-right: auto; // background-color: aqua;
+						margin-right: auto;
 						.comments_title {
 							height: 50px;
 							line-height: 50px;
@@ -296,19 +316,12 @@
 									font-size: 14px;
 									margin-top: 20px;
 								}
-								.item_options {
-									font-size: 13px;
-									color: #8590a6;
-									margin-top: 20px;
-									line-height: 20px;
-									span {
-										margin-right: 25px;
-										i {
-											margin-right: 5px;
-										}
-									}
-								}
 							}
+						}
+						.sorter {
+							text-align: center;
+							padding: 15px 0;
+							border-bottom: 1px solid #ebebeb;
 						}
 						.input_comment {
 							padding: 15px 0;
