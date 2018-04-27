@@ -1,14 +1,18 @@
 <template>
-	<div class="personCenter">
+	<div class="personCenter" @click="feature()">
 		<div class="info">
 			<img src="./../../assets/logo.png" alt="">
 			<h2>{{username}}</h2>
-			<p>经验: {{experience}} </p>
+			<p>读书时长: {{experience}} </p>
 			<p>积分: {{integral}}</p>
 		</div>
 		<div class="category">
 			<ul>
-				<li><i class="el-icon-tickets"></i>我的书籍</li>
+				<router-link to="/myself/nearlyread">
+					<li>
+						<i class="el-icon-tickets"></i>我的书籍
+					</li>
+				</router-link>
 				<li><i class="el-icon-goods"></i>订单中心</li>
 				<li><i class="el-icon-menu"></i>积分商城</li>
 				<li><i class="el-icon-setting"></i>个人设置</li>
@@ -58,8 +62,12 @@
 				this.$axios.post('/user/logout')
 					.then(() => {
 						sessionStorage.clear();
+						this.$router.push({path: '/home'})
 						location.reload()
 					})
+			},
+			feature() {
+				this.$message('暂未开发,敬请期待');
 			}
 		}
 	}
@@ -102,6 +110,9 @@
 			ul {
 				overflow: hidden;
 				width: 100%;
+				a {
+					color: #555;
+				}
 				li {
 					i {
 						margin-right: 10px;

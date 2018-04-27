@@ -7,7 +7,7 @@
 					<span class="saveContent">{{autoSave}}</span>
 					<span class="otherOpt">
 												<el-dropdown>
-													<span class="el-dropdown-link">···</span>
+													<span class="el-dropdown-link">· · ·</span>
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item>草稿</el-dropdown-item>
 						<el-dropdown-item>我的文章</el-dropdown-item>

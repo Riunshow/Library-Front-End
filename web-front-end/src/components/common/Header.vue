@@ -173,7 +173,7 @@
 </style>
 
 <style>
-	.el-input {
-		width: 250px;
+	.el-input{
+		width: 250px !important;
 	}
 </style>

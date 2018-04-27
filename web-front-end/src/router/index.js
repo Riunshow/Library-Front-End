@@ -21,9 +21,34 @@ const router = new Router({
             requireAuth: true
         }
     }, {
+        path: '/myself',
+        name: 'PersonalPage',
+        component: require('@/components/Personal/PersonalPage').default,
+        meta: {
+            requireAuth: true
+        },
+        children: [{
+            path: 'nearlyread',
+            name: 'NearlyRead',
+            component: require('@/components/Personal/NearlyRead').default,
+            meta: {
+                requireAuth: true
+            },
+        }, {
+            path: 'mycollect',
+            name: 'MyCollect',
+            component: require('@/components/Personal/MyCollect').default,
+            meta: {
+                requireAuth: true
+            },
+        }]
+    }, {
         path: '/403',
         name: '403',
         component: require('@/components/common/403').default,
+    }, {
+        path: '*',
+        redirect: '/home'
     }],
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {

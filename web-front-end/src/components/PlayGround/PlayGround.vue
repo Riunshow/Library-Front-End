@@ -8,6 +8,7 @@
 				</div>
 				<div class="rightOptions">
 					<div class="optionsDetail">
+						<options />
 					</div>
 				</div>
 			</div>
@@ -19,11 +20,13 @@
 	import HeaderNav from './../common/Header'
 	import FooterNav from './../common/Footer'
 	import Message from './Message.vue'
+	import Options from './Options.vue'
 	export default {
 		components: {
 			HeaderNav,
 			FooterNav,
 			Message,
+			Options,
 		},
 		data() {
 			return {};
@@ -59,13 +62,10 @@
 					width: 300px;
 					height: 600px;
 					padding-left: 15px;
-					background-color: beige;
 					.optionsDetail {
 						width: 250px;
-						height: 400px;
+						height: 500px;
 						position: fixed;
-						background-color: rgb(255, 255, 255);
-						box-shadow: 0 1px 3px rgba(26,26,26,.1);
 					}
 				}
 			}

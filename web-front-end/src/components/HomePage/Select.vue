@@ -28,9 +28,7 @@
 								<span>{{nowTitle}}</span>
 							</div>
 							<div class="tagBox">
-								<a target="_blank" class="cateDatail" v-for="(results,index) in category[nowHover].detail" :key="index">
-												{{results.name}}
-											</a>
+								<a target="_blank" class="cateDatail" v-for="(results,index) in category[nowHover].detail" :key="index">{{results.name}}</a>
 							</div>
 						</div>
 					</div>
