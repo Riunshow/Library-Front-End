@@ -1,7 +1,7 @@
 <template>
 	<div class="personCenter" @click="feature()">
 		<div class="info">
-			<img src="./../../assets/logo.png" alt="">
+			<img src="./../../../static/logo.png" alt="">
 			<h2>{{username}}</h2>
 			<p>读书时长: {{experience}} </p>
 			<p>积分: {{integral}}</p>

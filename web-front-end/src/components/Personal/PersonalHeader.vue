@@ -1,6 +1,6 @@
 <template>
 	<div class="personal_header">
-		<img src="./../../assets/logo.png" alt="">
+		<img src="./../../../static/logo.png" alt="">
 		<div class="personInfo">
 			<div class="name">
 				user
@@ -47,7 +47,7 @@
 		width: 100%;
 		color: #fff;
 		margin-top: 61px;
-		background-image: url('./../../assets/temp1.png');
+		background-image: url('https://www.imooc.com/static/img/u/temp1.png');
 		img {
 			height: 90px;
 			width: 90px;

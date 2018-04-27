@@ -1,7 +1,7 @@
 <template>
 	<div class="headerModel">
 		<div class="logoimg">
-			<img src="./../../assets/logo.png" alt="" @click="toHomePage">
+			<img src="./../../../static/logo.png" alt="" @click="toHomePage">
 		</div>
 		<!-- 菜单 -->
 		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect" router>
@@ -17,7 +17,7 @@
 				<el-popover ref="popoverInfo" placement="bottom" width="300" v-model="info" trigger="hover">
 					<personal-info />
 				</el-popover>
-				<img src="./../../assets/logo.png" alt="" v-popover:popoverInfo>
+				<img src="./../../../static/logo.png" alt="" v-popover:popoverInfo>
 				<!-- 通知 -->
 				<el-badge is-dot class="item">
 					<i class="el-icon-bell"></i>
@@ -45,7 +45,7 @@
 			</div>
 			<!-- app 下载 -->
 			<el-popover ref="appupload" placement="bottom" width="100" v-model="appupload" trigger="click">
-				<img src="./../../assets/appload.png" alt="" style="width: 150px;height:150px;">
+				<img src="./../../../static/appload.png" alt="" style="width: 150px;height:150px;">
 			</el-popover>
 		</el-row>
 	</div>
