@@ -43,6 +43,10 @@ const router = new Router({
             },
         }]
     }, {
+        path: '/book',
+        name: 'Book',
+        component: require('@/components/BookList/BookIndex').default,
+    }, {
         path: '/403',
         name: '403',
         component: require('@/components/common/403').default,

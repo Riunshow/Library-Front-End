@@ -28,7 +28,7 @@
 								<span>{{nowTitle}}</span>
 							</div>
 							<div class="tagBox">
-								<a target="_blank" class="cateDatail" v-for="(results,index) in category[nowHover].detail" :key="index">{{results.name}}</a>
+								<a @click="redirectToCate()" class="cateDatail" v-for="(results,index) in category[nowHover].detail" :key="index">{{results.name}}</a>
 							</div>
 						</div>
 					</div>
@@ -272,6 +272,9 @@
 				this.nowHover = index
 				this.nowTitle = title
 			},
+			redirectToCate() {
+				this.$router.push({path:'/book'})
+			}
 		}
 	}
 </script>
