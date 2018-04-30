@@ -32,6 +32,7 @@
 </template>
 
 <script>
+	import Bus from './bus.js'
 	export default {
 		data() {
 			return {
@@ -167,10 +168,13 @@
 		methods: {
 			getClickDirect(index) {
 				this.whichItem = index
-				this.whichCate = 0				
+				this.whichCate = 0
 			},
 			getClickCate(index) {
 				this.whichCate = index
+			},
+			bus() {
+				Bus.$emit('msg', 'something')
 			}
 		}
 	}
