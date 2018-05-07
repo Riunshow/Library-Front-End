@@ -423,6 +423,7 @@
 					}
 				}
 				.group:hover~.suspended {
+					transition: all .3s;
 					display: block;
 				}
 				.suspended:hover {

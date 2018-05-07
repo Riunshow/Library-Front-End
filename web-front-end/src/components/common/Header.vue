@@ -7,7 +7,7 @@
 		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect" router>
 			<el-menu-item index="/home">首页</el-menu-item>
 			<el-menu-item index="/ground">操场</el-menu-item>
-			<el-menu-item index="3">手记</el-menu-item>
+			<el-menu-item index="/book">书库</el-menu-item>
 		</el-menu>
 		<!-- 搜索框 -->
 		<el-input placeholder="请输入图书名称" v-model="search" clearable></el-input>

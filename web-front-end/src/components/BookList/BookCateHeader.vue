@@ -44,6 +44,8 @@
 					}, {
 						title: '网络文学',
 						detail: [{
+							name: '全部'
+						},{
 							name: '男频'
 						}, {
 							name: '女频'
@@ -64,6 +66,8 @@
 					{
 						title: '教育',
 						detail: [{
+							name: '全部'
+						},{
 							name: '中小学教辅'
 						}, {
 							name: '考试'
@@ -82,6 +86,8 @@
 					{
 						title: '人文社科',
 						detail: [{
+							name: '全部'
+						},{
 							name: '哲学宗教'
 						}, {
 							name: '历史'
@@ -102,6 +108,8 @@
 					{
 						title: '科技',
 						detail: [{
+							name: '全部'
+						},{
 							name: '科普读物'
 						}, {
 							name: '计算机/网络'
@@ -120,6 +128,8 @@
 					{
 						title: '经管',
 						detail: [{
+							name: '全部'
+						},{
 							name: '经济'
 						}, {
 							name: '管理'
@@ -139,6 +149,8 @@
 					}, {
 						title: '励志',
 						detail: [{
+							name: '全部'
+						},{
 							name: '励志/成功'
 						}, {
 							name: '心灵修养'
@@ -182,7 +194,7 @@
 
 <style lang="scss" scoped>
 	#cateHeader {
-		height: 100%;
+		height: 160px;
 		width: 100%;
 		margin-top: 61px;
 		.wrap {
