@@ -16,7 +16,7 @@
 						<span class="catename">玄幻奇幻</span>
 						<div class="readCount">
 							<i class="el-icon-view"></i> 2333
-						</div>
+						</div> 
 						<div class="bookInfo">
 							<p>这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍</p>
 						</div>
@@ -123,6 +123,7 @@
 						.bookInfo {
 							margin-top: 15px;
 							width: 90%;
+							height: 38px;
 							font-size: 13px;
 							padding-left: 10px;
 							padding-top: 10px;
