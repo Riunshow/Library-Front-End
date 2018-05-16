@@ -57,7 +57,7 @@
 		.book_router {
 			width: 100%;
 			height: 50px;
-			border-bottom: 1px solid #555;
+			border-bottom: 1px solid #A9A9A9;;
 			.el-breadcrumb {
 				padding-top: 25px;
 			}
@@ -65,7 +65,7 @@
 		.book_intro_header {
 			height: 300px;
 			width: 100%;
-			border-bottom: 1px solid #555;
+			border-bottom: 1px solid #A9A9A9;;
 			.book_img {
 				height: 200px;
 				width: 200px;
@@ -104,7 +104,7 @@
 			}
 		}
 		.book_intro_main {
-			border-bottom: 1px solid #555;
+			border-bottom: 1px solid #A9A9A9;;
 			.head {
 				height: 50px;
 				line-height: 50px;
@@ -122,14 +122,10 @@
 			}
 			.book_content {
 				padding-bottom: 5px;
-				height: 150px;
+				// height: 150px;
 				font-size: 14px;
 				color: #555;
 				line-height: 30px;
-				display: -webkit-box;
-				-webkit-box-orient: vertical;
-				-webkit-line-clamp: 5;
-				overflow: hidden;
 			}
 		}
 	}

@@ -8,7 +8,7 @@
 		</div>
 		<div class="main">
 			<div class="comment_head">
-				<span>最热</span>
+				<span class="isActive">最热</span>
 				<span>最新</span>
 			</div>
 			<div class="comment_main" v-for="item in 8">
@@ -18,6 +18,10 @@
 				</div>
 				<div class="content">
 					于大爷在此书提到了王世襄先生，让我不免惊喜。王先生是学者，把玩儿研究透了研究到头了，著作里透着知识分子的严谨。于大爷的书则多了几分市井气、江湖气。北京玩儿家的气象，能这么生生不息代代地传承下来，真好。
+				</div>
+				<div class="footer">
+					<el-button icon="el-icon-caret-top" size="mini" type="primary" plain>13</el-button>
+					<el-button icon="el-icon-caret-bottom" size="mini" type="primary" plain></el-button>
 				</div>
 			</div>
 		</div>
@@ -33,7 +37,8 @@
 <script>
 	export default {
 		data() {
-			return {};
+			return {
+			};
 		}
 	}
 </script>
@@ -65,6 +70,9 @@
 					float: left;
 					margin-right: 20px;
 				}
+				.isActive {
+					color: #f01414;
+				}
 			}
 			.comment_main {
 				// height: 150px;
@@ -84,6 +92,12 @@
 				.content {
 					width: 1000px;
 					line-height: 30px;
+				}
+				.footer {
+					width: 100%;
+					height: 50px;
+					line-height: 50px;
+					font-size: 13px;
 				}
 			}
 		}
