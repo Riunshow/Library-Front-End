@@ -17,11 +17,15 @@
 					</li>
 					<li>
 						<p>粉丝</p>
-						<p>20</p>
+						<router-link to="/myself/fans">
+							<p>20</p>
+						</router-link>
 					</li>
 					<li>
 						<p>关注</p>
-						<p>10</p>
+						<router-link to="/myself/follows">
+							<p>20</p>
+						</router-link>
 					</li>
 					<li>
 						<el-button type="primary" size="mini" plain>签到</el-button>
@@ -86,6 +90,23 @@
 						p:nth-child(1) {
 							margin-bottom: 5px;
 						}
+						a {
+							color: #eee;
+							text-decoration: none;
+						}
+						a:visited {
+							text-decoration: none;
+						}
+						a:hover {
+							color: #ba2636;
+							text-decoration: underline;
+						}
+						a:active {
+							color: #ba2636;
+						}
+					}
+					li:hover {
+						cursor: pointer;
 					}
 				}
 			}

@@ -5,12 +5,12 @@ const Random = Mock.Random;
 const loginUser = (opt) => {
     const options = JSON.parse(opt.body)
     let user = {}
-    if (options.user_num == 'user') {
+    if (options.userid == 'user') {
         let newUserObject = {
             username: 'user',
-            experience: '213h',
+            readingTime: '213h',
             integral: 320,
-            memoryBook: {
+            recentlyBook: {
                 title: 'CSS世界',
                 chapter: '1-1',
                 chpaterHead: '概述'
@@ -35,7 +35,7 @@ const logout = () => {
     return user
 }
 
-Mock.mock('/user/logout', 'post', logout);
+Mock.mock('/user/logout', 'get', logout);
 
 // 获取图书推荐
 const recommandBook = () => {

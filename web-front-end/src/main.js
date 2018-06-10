@@ -15,6 +15,8 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 
+Vue.prototype.$serverIP = 'http://192.168.43.14:7001'
+
 require('./mock.js')
 
 /* eslint-disable no-new */

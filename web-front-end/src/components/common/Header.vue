@@ -4,7 +4,7 @@
 			<img src="./../../../static/logo.png" alt="" @click="toHomePage">
 		</div>
 		<!-- 菜单 -->
-		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect" router>
+		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal"router>
 			<el-menu-item index="/home">首页</el-menu-item>
 			<el-menu-item index="/ground">操场</el-menu-item>
 			<el-menu-item index="/book">书库</el-menu-item>
@@ -26,14 +26,46 @@
 			</div>
 			<!-- 未登录 -->
 			<div v-else>
-				<el-button class="login" type="text" @click="dialogFormVisible = true">登录</el-button>
-				<el-dialog title="登录" :visible.sync="dialogFormVisible" :modal-append-to-body="false">
-					<el-form :model="form">
+				<!-- 注册 -->
+				<el-button class="login" type="text" @click="dialogFormLRegister = true">注册</el-button>
+				<el-dialog title="注册" :visible.sync="dialogFormLRegister" :modal-append-to-body="false">
+					<el-form :model="registerForm" status-icon :rules="checkTwicePwdRules" ref="registerForm" label-width="100px" class="demo-ruleForm">
 						<el-form-item label="用户名" :label-width="formLabelWidth">
-							<el-input v-model="form.name" auto-complete="off"></el-input>
+							<el-input v-model="registerForm.id" auto-complete="off"></el-input>
+						</el-form-item>
+						<el-form-item label="密码" prop="pass" :label-width="formLabelWidth">
+							<el-input type="password" v-model="registerForm.pass" auto-complete="off"></el-input>
+						</el-form-item>
+						<el-form-item label="确认密码" prop="checkPass" :label-width="formLabelWidth">
+							<el-input type="password" v-model="registerForm.checkPass" auto-complete="off"></el-input>
+						</el-form-item>
+					</el-form>
+					<!-- <el-form :model="registerForm">
+											<el-form-item label="用户名" :label-width="formLabelWidth">
+												<el-input v-model="registerForm.id" auto-complete="off"></el-input>
+											</el-form-item>
+											<el-form-item label="密码" :label-width="formLabelWidth">
+												<el-input v-model="registerForm.password" auto-complete="off" :type="changeShow.type"></el-input>
+												<i :class="changeShow.class" @click="changeShowPwd()"></i>
+											</el-form-item>
+											<el-form-item label="密码again" :label-width="formLabelWidth">
+												<el-input v-model="registerForm.passwordAgain" auto-complete="off" :type="changeShow.type" @blur="checkSame()"></el-input>
+											</el-form-item>
+										</el-form> -->
+					<div slot="footer" class="dialog-footer">
+						<el-button @click="resetForm('registerForm')">重 置</el-button>
+						<el-button type="primary" @click="register('registerForm')">确 定</el-button>
+					</div>
+				</el-dialog>
+				<!-- 登录 -->
+				<el-button class="login" type="text" @click="dialogFormLogin = true">登录</el-button>
+				<el-dialog title="登录" :visible.sync="dialogFormLogin" :modal-append-to-body="false">
+					<el-form :model="loginForm">
+						<el-form-item label="用户名" :label-width="formLabelWidth">
+							<el-input v-model="loginForm.id" auto-complete="off"></el-input>
 						</el-form-item>
 						<el-form-item label="密码" :label-width="formLabelWidth">
-							<el-input v-model="form.password" auto-complete="off" type="password"></el-input>
+							<el-input v-model="loginForm.password" auto-complete="off" type="password"></el-input>
 						</el-form-item>
 					</el-form>
 					<div slot="footer" class="dialog-footer">
@@ -41,9 +73,10 @@
 						<el-button type="primary" @click="login">确 定</el-button>
 					</div>
 				</el-dialog>
+				<!-- 下载 app -->
 				<el-button class="download" round icon="el-icon-download" v-popover:appupload>下载APP</el-button>
 			</div>
-			<!-- app 下载 -->
+			<!-- app 下载 浮层 -->
 			<el-popover ref="appupload" placement="bottom" width="100" v-model="appupload" trigger="click">
 				<img src="./../../../static/appload.png" alt="" style="width: 150px;height:150px;">
 			</el-popover>
@@ -58,38 +91,129 @@
 			PersonalInfo
 		},
 		data() {
+			var validatePass = (rule, value, callback) => {
+				if (value === '') {
+					callback(new Error('请输入密码'));
+				} else {
+					if (this.registerForm.checkPass !== '') {
+						this.$refs.registerForm.validateField('checkPass');
+					}
+					callback();
+				}
+			};
+			var validatePass2 = (rule, value, callback) => {
+				if (value === '') {
+					callback(new Error('请再次输入密码'));
+				} else if (value !== this.registerForm.pass) {
+					callback(new Error('两次输入密码不一致!'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				search: '',
 				appupload: false,
 				info: false,
 				isLogin: false,
-				dialogFormVisible: false,
-				form: {
-					name: '',
+				dialogFormLogin: false,
+				dialogFormLRegister: false,
+				registerForm: {
+					id: '',
+					pass: '',
+					checkPass: '',
+				},
+				loginForm: {
+					id: '',
 					password: '',
 				},
-				formLabelWidth: '120px'
+				formLabelWidth: '120px',
+				changeShow: {
+					type: 'password',
+					class: 'el-icon-star-on'
+				},
+				eyes: true,
+				checkTwicePwdRules: {
+					pass: [{
+						validator: validatePass,
+						trigger: 'blur'
+					}],
+					checkPass: [{
+						validator: validatePass2,
+						trigger: 'blur'
+					}]
+				}
 			};
 		},
 		created() {
 			this.isHasData()
 		},
 		methods: {
-			handleSelect(key, keyPath) {
-				console.log(key, keyPath);
+			// 密码可见切换
+			changeShowPwd() {
+				if (this.eyes) {
+					this.changeShow = {
+							type: 'text',
+							class: 'el-icon-star-off'
+						},
+						this.eyes = !this.eyes;
+				} else {
+					this.changeShow = {
+							type: 'password',
+							class: 'el-icon-star-on'
+						},
+						this.eyes = !this.eyes;
+				}
 			},
+			// 重置
+			resetForm(formName) {
+				this.$refs[formName].resetFields();
+			},
+			// 注册
+			register(formName) {
+				this.$refs[formName].validate((valid) => {
+					if (valid) {
+						// 关闭注册弹出框
+						this.dialogFormLRegister = false
+						const _this = this
+						this.$axios.post(this.$serverIP + '/user/register', {
+							account: _this.registerForm.id, // 用户账号
+							password: _this.registerForm.pass // 用户密码
+						}).then(results => {
+							this.$message({
+								message: '注册成功,请登录',
+								type: 'success'
+							});
+							// 注册成功
+							this.dialogFormLogin = true;
+							_this.loginForm.id = _this.registerForm.id
+							_this.loginForm.password = _this.registerForm.pass
+						}).catch((err) => {
+							this.$message.error(err.response.data.data);
+							this.dialogFormLRegister = true
+						})
+					} else {
+						return false;
+					}
+				});
+			},
+			// 登录
 			login() {
-				this.dialogFormVisible = false
+				this.dialogFormLogin = false
 				const _this = this
-				this.$axios.post('/user/login', {
-					user_num: _this.form.name,
-					user_password: _this.form.password
+				this.$axios.post(this.$serverIP + '/user/login', {
+					account: _this.loginForm.id,
+					password: _this.loginForm.password
 				}).then(results => {
 					console.log(results.data)
-					results.data.code === 0 ? _this.isLogin = true : _this.isLogin = false
-					sessionStorage.user = JSON.stringify(results.data)
+					// error为false, 则设置登录
+					results.data.error === false ? _this.isLogin = true : _this.isLogin = false
+					sessionStorage.user = JSON.stringify(results.data.data.user)
+				}).catch((err) => {
+					this.$message.error(err.response.data.data);
+					this.dialogFormLogin = true
 				})
 			},
+			// 判断是否登录,展示 用户信息 或 登录注册
 			isHasData() {
 				sessionStorage.user ? this.isLogin = true : this.isLogin = false
 			},
@@ -135,8 +259,7 @@
 			}
 		}
 		.el-input {
-			margin-top: 10px;
-			margin-left: 30px;
+			margin-top: 10px; // margin-left: 30px;
 			float: left;
 		}
 		.el-row {
@@ -173,7 +296,7 @@
 </style>
 
 <style>
-	.el-input{
+	.el-input {
 		width: 250px !important;
 	}
 </style>

@@ -41,6 +41,20 @@ const router = new Router({
             meta: {
                 requireAuth: true
             },
+        }, {
+            path: 'fans',
+            name: 'Myfans',
+            component: require('@/components/Personal/Fans').default,
+            meta: {
+                requireAuth: true
+            },
+        }, {
+            path: 'follows',
+            name: 'Mywatch',
+            component: require('@/components/Personal/Follows').default,
+            meta: {
+                requireAuth: true
+            },
         }]
     }, {
         path: '/book',

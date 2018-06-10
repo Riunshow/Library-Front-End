@@ -3,7 +3,7 @@
 		<div class="info">
 			<img src="./../../../static/logo.png" alt="">
 			<h2>{{username}}</h2>
-			<p>读书时长: {{experience}} </p>
+			<p>读书时长: {{readingTime}} </p>
 			<p>积分: {{integral}}</p>
 		</div>
 		<div class="category">
@@ -19,9 +19,14 @@
 			</ul>
 		</div>
 		<div class="memory">
-			<h2><i class="el-icon-time"></i>{{memoryBook.title}}</h2>
-			<p>{{memoryBook.chapter}} {{memoryBook.chpaterHead}}</p>
-			<el-button type="text">继续</el-button>
+			<div v-if="hasrecentBook">
+				<h2><i class="el-icon-time"></i>{{recentBook.title}}</h2>
+				<p>{{recentBook.chapter}} {{recentBook.chpaterHead}}</p>
+				<!-- <el-button type="text">继续</el-button> -->
+			</div>
+			<div v-else>
+				<p>暂无最近阅读...</p>
+			</div>
 		</div>
 		<div class="logout">
 			<el-button type="text" @click="logout">安全退出</el-button>
@@ -33,37 +38,53 @@
 	export default {
 		data() {
 			return {
-				username: '',
-				experience: '',
-				integral: '',
-				memoryBook: {
-					title: '',
-					chapter: '',
-					chpaterHead: ''
+				username: '', // 用户名字
+				readingTime: '', // 读书时长
+				integral: '', // 积分
+				recentBook: { // 最近阅读 
+					title: '', // 书名
+					chapter: '', // 作者
+					chpaterHead: '' // 第几章
 				},
+				hasrecentBook: false,
 			};
 		},
-		mounted() {
+		created() {
 			this.getData()
 		},
+		computed: {},
 		methods: {
+			// 获取用户基本信息, 名字,读书时长,积分
 			getData() {
-				const user = JSON.parse(sessionStorage.user)
 				if (sessionStorage.user) {
-					this.username = user.username
-					this.experience = user.experience
-					this.integral = user.integral
-					this.memoryBook.title = user.memoryBook.title
-					this.memoryBook.chapter = user.memoryBook.chapter
-					this.memoryBook.chpaterHead = user.memoryBook.chpaterHead
+					const user = JSON.parse(sessionStorage.user)
+					this.username = user.nickname;
+					this.readingTime = user.readingTime;
+					this.integral = user.integral;
+					// 判断用户是否有最近阅读记录
+					if (typeof user.recentBook == 'undefined' ||
+						typeof user.recentBook.title == 'undefined' ||
+						typeof user.recentBook.chapter == 'undefined' ||
+						typeof user.recentBook.chpaterHead == 'undefined') {
+						this.hasrecentBook = false;
+					} else {
+						this.recentBook.title = user.recentBook[0].title;
+						this.recentBook.chapter = user.recentBook[0].chapter;
+						this.recentBook.chpaterHead = user.recentBook[0].chpaterHead;
+						this.hasrecentBook = true;
+					}
 				}
 			},
+			// 退出
 			logout() {
-				this.$axios.post('/user/logout')
+				this.$axios
+					.get(this.$serverIP + '/user/logout')
 					.then(() => {
 						sessionStorage.clear();
-						this.$router.push({path: '/home'})
-						location.reload()
+						location.reload();
+						this.$router.push({
+							path: '/home'
+						});
 					})
 			},
 			feature() {
