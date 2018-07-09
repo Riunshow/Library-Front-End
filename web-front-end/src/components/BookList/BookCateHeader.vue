@@ -3,7 +3,8 @@
 		<div class="wrap">
 			<div class="top">
 				<div class="categoryContent">
-					<!-- 方向 -->
+					<!-- 
+					方向
 					<div class="cate_row">
 						<span class="cate_name">方向:</span>
 						<div class="cate_detail">
@@ -14,7 +15,7 @@
 							</ul>
 						</div>
 					</div>
-					<!-- 分类 -->
+					分类
 					<div class="cate_row">
 						<span class="cate_name">分类:</span>
 						<div class="cate_detail">
@@ -25,6 +26,28 @@
 							</ul>
 						</div>
 					</div>
+					-->
+					<div class="cate_row">
+						<span class="cate_name">方向:</span>
+						<div class="cate_detail">
+							<ul>
+								<li v-for="(item, index) in category" :key="index">
+									<span class="directionInfo" :class="resultCate == index?'active':''" @click="getClickDirect(index)">{{item.category}}</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="cate_row">
+						<span class="cate_name">分类:</span>
+						<div class="cate_detail">
+							<ul>
+								<li v-for="(item, index) in category[whichCate].type" :key="index">
+									<span class="directionInfo" :class="resultType == index?'active':''" @click="getClickCate(index,item.id)">{{item.type}}</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -36,157 +59,63 @@
 	export default {
 		data() {
 			return {
-				direction: [{
-						title: '全部',
-						detail: [{
-							name: '全部'
-						}]
-					}, {
-						title: '网络文学',
-						detail: [{
-							name: '全部'
-						},{
-							name: '男频'
-						}, {
-							name: '女频'
-						}, {
-							name: '玄幻奇幻'
-						}, {
-							name: '现代都市'
-						}, {
-							name: '武侠仙侠'
-						}, {
-							name: '现代言情'
-						}, {
-							name: '穿越重生'
-						}, {
-							name: '古装言情'
-						}],
-					},
-					{
-						title: '教育',
-						detail: [{
-							name: '全部'
-						},{
-							name: '中小学教辅'
-						}, {
-							name: '考试'
-						}, {
-							name: '外语工具书'
-						}, {
-							name: '教师用书'
-						}, {
-							name: '英语四六级'
-						}, {
-							name: '考研'
-						}, {
-							name: '公务员'
-						}],
-					},
-					{
-						title: '人文社科',
-						detail: [{
-							name: '全部'
-						},{
-							name: '哲学宗教'
-						}, {
-							name: '历史'
-						}, {
-							name: '政治军事'
-						}, {
-							name: '文化'
-						}, {
-							name: '社会科学'
-						}, {
-							name: '心理学'
-						}, {
-							name: '古籍'
-						}, {
-							name: '法律'
-						}],
-					},
-					{
-						title: '科技',
-						detail: [{
-							name: '全部'
-						},{
-							name: '科普读物'
-						}, {
-							name: '计算机/网络'
-						}, {
-							name: '医学'
-						}, {
-							name: '工业技术'
-						}, {
-							name: '建筑'
-						}, {
-							name: '自然科学'
-						}, {
-							name: '农业/林业'
-						}],
-					},
-					{
-						title: '经管',
-						detail: [{
-							name: '全部'
-						},{
-							name: '经济'
-						}, {
-							name: '管理'
-						}, {
-							name: '投资理财'
-						}, {
-							name: '股票'
-						}, {
-							name: '金融'
-						}, {
-							name: '市场/销售'
-						}, {
-							name: '会计'
-						}, {
-							name: '互联网'
-						}],
-					}, {
-						title: '励志',
-						detail: [{
-							name: '全部'
-						},{
-							name: '励志/成功'
-						}, {
-							name: '心灵修养'
-						}, {
-							name: '职场'
-						}, {
-							name: '人生哲学'
-						}, {
-							name: '人际交往'
-						}, {
-							name: '口才/演讲/辩论'
-						}],
-					}
-				],
-				whichItem: 0,
+				whichType: 0,
 				whichCate: 0,
+				category: [{
+					cate: '',
+					type: [],
+				}],
+				typeID: 0,
 			};
 		},
 		computed: {
-			resultDirect() {
-				return this.whichItem;
-			},
 			resultCate() {
 				return this.whichCate;
+			},
+			resultType() {
+				return this.whichType;
 			}
 		},
+		created () {
+			this.getCategory(),
+			this.getTypeId()
+		},
 		methods: {
+			getTypeId() {
+				if (this.$route.params.typeid) {
+					this.typeID = this.$route.params.typeid
+				}
+			},
+			getCategory() {
+				this.$axios
+					.get('/category/all')
+					.then((results) => {
+						this.category = results.data
+						for (const x in this.category) {
+							for (const y in this.category[x].type) {
+								if (this.category[x].type[y].id == this.typeID) {
+									this.whichCate = x
+									this.whichType = y
+								}
+							}
+						}
+						if (!this.$route.params.typeid) {
+							this.bus(this.category[0].type[0].id)
+						}
+					})
+
+			},
 			getClickDirect(index) {
-				this.whichItem = index
-				this.whichCate = 0
-			},
-			getClickCate(index) {
 				this.whichCate = index
+				this.whichType = 0
+				this.bus(this.category[index].type[0].id)
 			},
-			bus() {
-				Bus.$emit('msg', 'something')
+			getClickCate(index, cid) {
+				this.whichType = index
+				this.bus(cid)
+			},
+			bus(cid) {
+				Bus.$emit('cid', cid)
 			}
 		}
 	}

@@ -27,7 +27,7 @@
 			<!-- 未登录 -->
 			<div v-else>
 				<!-- 注册 -->
-				<el-button class="login" type="text" @click="dialogFormLRegister = true">注册</el-button>
+				<!-- <el-button class="login" type="text" @click="dialogFormLRegister = true">注册</el-button>
 				<el-dialog title="注册" :visible.sync="dialogFormLRegister" :modal-append-to-body="false">
 					<el-form :model="registerForm" status-icon :rules="checkTwicePwdRules" ref="registerForm" label-width="100px" class="demo-ruleForm">
 						<el-form-item label="用户名" :label-width="formLabelWidth">
@@ -40,23 +40,11 @@
 							<el-input type="password" v-model="registerForm.checkPass" auto-complete="off"></el-input>
 						</el-form-item>
 					</el-form>
-					<!-- <el-form :model="registerForm">
-											<el-form-item label="用户名" :label-width="formLabelWidth">
-												<el-input v-model="registerForm.id" auto-complete="off"></el-input>
-											</el-form-item>
-											<el-form-item label="密码" :label-width="formLabelWidth">
-												<el-input v-model="registerForm.password" auto-complete="off" :type="changeShow.type"></el-input>
-												<i :class="changeShow.class" @click="changeShowPwd()"></i>
-											</el-form-item>
-											<el-form-item label="密码again" :label-width="formLabelWidth">
-												<el-input v-model="registerForm.passwordAgain" auto-complete="off" :type="changeShow.type" @blur="checkSame()"></el-input>
-											</el-form-item>
-										</el-form> -->
 					<div slot="footer" class="dialog-footer">
 						<el-button @click="resetForm('registerForm')">重 置</el-button>
 						<el-button type="primary" @click="register('registerForm')">确 定</el-button>
 					</div>
-				</el-dialog>
+				</el-dialog> -->
 				<!-- 登录 -->
 				<el-button class="login" type="text" @click="dialogFormLogin = true">登录</el-button>
 				<el-dialog title="登录" :visible.sync="dialogFormLogin" :modal-append-to-body="false">
@@ -169,47 +157,48 @@
 				this.$refs[formName].resetFields();
 			},
 			// 注册
-			register(formName) {
-				this.$refs[formName].validate((valid) => {
-					if (valid) {
-						// 关闭注册弹出框
-						this.dialogFormLRegister = false
-						const _this = this
-						this.$axios.post(this.$serverIP + '/user/register', {
-							account: _this.registerForm.id, // 用户账号
-							password: _this.registerForm.pass // 用户密码
-						}).then(results => {
-							this.$message({
-								message: '注册成功,请登录',
-								type: 'success'
-							});
-							// 注册成功
-							this.dialogFormLogin = true;
-							_this.loginForm.id = _this.registerForm.id
-							_this.loginForm.password = _this.registerForm.pass
-						}).catch((err) => {
-							this.$message.error(err.response.data.data);
-							this.dialogFormLRegister = true
-						})
-					} else {
-						return false;
-					}
-				});
-			},
+			// register(formName) {
+			// 	this.$refs[formName].validate((valid) => {
+			// 		if (valid) {
+			// 			// 关闭注册弹出框
+			// 			this.dialogFormLRegister = false
+			// 			const _this = this
+			// 			this.$axios.post('/user/register', {userList: [{
+			// 				account: _this.registerForm.id, // 用户账号
+			// 				password: _this.registerForm.pass // 用户密码
+			// 			}]
+			// 			}).then(results => {
+			// 				this.$message({
+			// 					message: '注册成功,请登录',
+			// 					type: 'success'
+			// 				});
+			// 				// 注册成功
+			// 				this.dialogFormLogin = true;
+			// 				_this.loginForm.id = _this.registerForm.id
+			// 				_this.loginForm.password = _this.registerForm.pass
+			// 			}).catch((err) => {
+			// 				this.$message.error(err.response.data.data);
+			// 				this.dialogFormLRegister = true
+			// 			})
+			// 		} else {
+			// 			return false;
+			// 		}
+			// 	});
+			// },
 			// 登录
 			login() {
 				this.dialogFormLogin = false
-				const _this = this
-				this.$axios.post(this.$serverIP + '/user/login', {
-					account: _this.loginForm.id,
-					password: _this.loginForm.password
+				this.$axios.post('/user/login', {
+					account: this.loginForm.id,
+					password: this.loginForm.password
 				}).then(results => {
 					console.log(results.data)
 					// error为false, 则设置登录
-					results.data.error === false ? _this.isLogin = true : _this.isLogin = false
+					results.data.error === false ? this.isLogin = true : this.isLogin = false
 					sessionStorage.user = JSON.stringify(results.data.data.user)
 				}).catch((err) => {
-					this.$message.error(err.response.data.data);
+					// this.$message.error(err.response.data.data);
+					console.log(err);
 					this.dialogFormLogin = true
 				})
 			},

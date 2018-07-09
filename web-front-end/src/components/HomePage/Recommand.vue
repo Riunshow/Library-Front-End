@@ -5,21 +5,14 @@
 		<em>推</em>
 		<em>荐</em>
 		<ul>
-			<li v-for="(items, idex) in recommandBook">
-				<img :src="items.img" alt="">
+			<li v-for="(items, idex) in recommendBook">
+				<img :src="items.cover" :alt="items.name">
 				<span>{{items.name}}</span>
-				<p>{{items.info}}</p>
+				<p>{{items.blurb}}</p>
 				<!--  -->
 				<div class="detail">
-					<span class="cateName">{{items.cateName}}</span>
-					<span class="view"><i class="el-icon-view"></i>{{items.view}}</span>
-					<span class="stars">
-						<i class="el-icon-star-on"></i>
-						<i class="el-icon-star-on"></i>
-						<i class="el-icon-star-on"></i>
-						<i class="el-icon-star-on"></i>
-						<i class="el-icon-star-on"></i>						
-					</span>
+					<span class="cateName">{{items.Category.category}}/{{items.Category.type}}</span>
+					<span class="view"><i class="el-icon-view"></i>{{items.views}}</span>
 				</div>
 			</li>
 		</ul>
@@ -30,18 +23,18 @@
 	export default {
 		data() {
 			return {
-				recommandBook: []
+				recommendBook: []
 			};
 		},
 		created() {
-			this.getRecommandBook()
+			this.getrecommendBook()
 		},
 		methods: {
-			getRecommandBook() {
+			getrecommendBook() {
 				const _this = this
-				this.$axios.get('/book/recommand')
+				this.$axios.get('/book/recommend?num=5')
 					.then((result) => {
-						_this.recommandBook = result.data
+						_this.recommendBook = result.data
 					}).catch((err) => {
 						console.log(err);
 					});
@@ -110,13 +103,14 @@
 					span {
 						float: left;
 						font-size: 5px;
-						width: 60px;
+						width: 80px;
 					}
-					.stars {
-						i {
-							margin-right: -5px;
+					.view {
+						float: right;
+							i {
+								margin-right: 5px;
+							}
 						}
-					}
 				}
 			}
 			li:hover {

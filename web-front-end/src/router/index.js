@@ -58,7 +58,7 @@ const router = new Router({
         }]
     }, {
         path: '/book',
-        name: 'Book',
+        name: 'book',
         component: require('@/components/BookList/BookIndex').default,
     }, {
         path: '/bookinfo/:bookid',
@@ -82,7 +82,6 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-
     if (to.fullPath == '/') {
         next({
             path: '/home'

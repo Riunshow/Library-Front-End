@@ -78,7 +78,7 @@
 			// 退出
 			logout() {
 				this.$axios
-					.get(this.$serverIP + '/user/logout')
+					.get('/user/logout')
 					.then(() => {
 						sessionStorage.clear();
 						location.reload();

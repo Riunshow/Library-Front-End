@@ -2,43 +2,37 @@
 	<div class="main">
 		<div class="asideSelect">
 			<div class="category">
-				<div class="group" v-for="(data, index) in category" :key="index" @mouseover="enter(index, data.title)">
-					<!-- <el-popover  placement="right" width="400" trigger="hover" :visible-arrow="false">
-									<div v-for="(cateName, cateIndex) in data.category" :key="cateIndex">
-										{{cateName.name}}
-									</div>
-									<div class="showPopover" slot="reference">
-										<a target="_blank">
-											<span>{{data.title}}</span>
-											<i class="el-icon-arrow-right"></i>
-										</a>
-									</div>
-								</el-popover> -->
+				<div class="group" v-for="(data, index) in category" :key="index" @mouseover="enter(index, data.category)">
 					<div class="showPopover">
 						<a target="_blank">
-							<span>{{data.title}}</span>
+							<span>{{data.category}}</span>
 							<i class="el-icon-arrow-right"></i>
 						</a>
 					</div>
 				</div>
 				<div class="suspended">
+					<!-- 分类名 -->
 					<div class="cateName">
 						<div class="baseBox">
 							<div class="bannerLine">
 								<span>{{nowTitle}}</span>
 							</div>
 							<div class="tagBox">
-								<a @click="redirectToCate()" class="cateDatail" v-for="(results,index) in category[nowHover].detail" :key="index">{{results.name}}</a>
+								<a class="cateDatail" v-for="(results,index) in category[nowHover].type" :key="index" @click="redirectToCate(results.id)">{{results.type}}</a>
 							</div>
 						</div>
 					</div>
+					<!-- 推荐书 -->
 					<div class="recommand">
-						<div class="recommandBook">
-							<div class="bookDetail" v-for="(results,index) in category[nowHover].bookDetail" :key="index">
+						<div class="recommandBook" v-if="category[nowHover].bookDetail.length !==0">
+							<div class="bookDetail" v-for="(results,index) in category[nowHover].bookDetail" :key="index" >
 								<img :src="results.img" alt="">
 								<span>{{results.name}}</span>
 								<p>{{results.info}}</p>
 							</div>
+						</div>
+						<div class="recommandBook" v-else>
+							<p>当前分类下暂无推荐书籍</p>
 						</div>
 					</div>
 				</div>
@@ -69,168 +63,11 @@
 			return {
 				nowHover: 0,
 				nowTitle: '',
-				// 大分类套小分类
 				category: [{
-					title: '网络文学',
-					detail: [{
-						name: '男频'
-					}, {
-						name: '女频'
-					}, {
-						name: '玄幻奇幻'
-					}, {
-						name: '现代都市'
-					}, {
-						name: '武侠仙侠'
-					}, {
-						name: '现代言情'
-					}, {
-						name: '穿越重生'
-					}, {
-						name: '古装言情'
-					}],
-					bookDetail: [{
-						img: require('./../../../static/1.jpg'),
-						name: '失乐园',
-						info: '渡边淳一代表作，长期雄踞日本畅销书排行榜榜首，由黑木瞳、役所广司主演的电影引发“失乐园”热。此次的全新林少华译本，将带你体味不一样的渡边淳一，不一样的失乐园。',
-					}, {
-						img: require('./../../../static/2.jpg'),
-						name: '我不',
-						info: '百万级畅销书作家大冰2017年新书！用温暖的故事结一段小善缘，陪你微笑着对命运说：我不！不屈不挠、不破不立，他们因不，而不同，乃至不凡！随书奉送20余首有钱也买不到的民谣。',
-					}],
-				}, {
-					title: '教育',
-					detail: [{
-						name: '中小学教辅'
-					}, {
-						name: '考试'
-					}, {
-						name: '外语工具书'
-					}, {
-						name: '教师用书'
-					}, {
-						name: '英语四六级'
-					}, {
-						name: '考研'
-					}, {
-						name: '公务员'
-					}],
-					bookDetail: [{
-						img: require('./../../../static/3.jpg'),
-						name: '岛上书店',
-						info: '现象级全球畅销书！一年之内畅销美英德法日等30国！感动全球千万读者的阳光治愈小说！美国独立书商推荐阅读桂冠、美国图书馆推荐阅读桂冠。每个人的生命中，都有无比艰难的那一年，将人生变得美好而辽阔。读客出品',
-					}, {
-						img: require('./../../../static/4.jpg'),
-						name: '夏日终曲',
-						info: '2018奥斯卡获奖影片Call me by your name原著小说。十七岁的爱情以身伺火，三十七岁时却温暖余生 睽违二十年的漫长告白：请以你的名字呼唤我',
-					}],
-				}, {
-					title: '人文社科',
-					detail: [{
-						name: '哲学宗教'
-					}, {
-						name: '历史'
-					}, {
-						name: '政治军事'
-					}, {
-						name: '文化'
-					}, {
-						name: '社会科学'
-					}, {
-						name: '心理学'
-					}, {
-						name: '古籍'
-					}, {
-						name: '法律'
-					}],
-					bookDetail: [{
-						img: require('./../../../static/5.jpg'),
-						name: '摆渡人2：重返荒原',
-						info: '百万畅销心灵治愈小说《摆渡人》第二季重磅来袭！如果生命进入再次的轮回，你又愿意为此付出怎样的代价？）白马时光',
-					}, {
-						img: require('./../../../static/6.jpg'),
-						name: '刺杀骑士团长',
-						info: '简体中文版正式上市！【王俊凯3月书单】村上春树时隔七年长篇巨著,关于创伤、内省、对峙、重生的力量之作,2017年度日本小说类榜首！',
-					}],
-				}, {
-					title: '科技',
-					detail: [{
-						name: '科普读物'
-					}, {
-						name: '计算机/网络'
-					}, {
-						name: '医学'
-					}, {
-						name: '工业技术'
-					}, {
-						name: '建筑'
-					}, {
-						name: '自然科学'
-					}, {
-						name: '农业/林业'
-					}],
-					bookDetail: [{
-						img: require('./../../../static/7.jpg'),
-						name: '肯·福莱特世纪三部曲',
-						info: '《巨人的陨落》《世界的凛冬》《永恒的边缘》套装共9册，全球读者平均3个通宵读完的超级小说！火遍全球的20世纪人类史诗。我亲眼目睹，每一个迈向死亡的生命都在热烈地生长。首次登陆中国。读客出品 ',
-					}, {
-						img: require('./../../../static/8.jpg'),
-						name: '橘子不是唯一的水果',
-						info: '橘子不是唯 一的水果，你的人生，还有别的可能！张悦然、蒋方舟、任晓雯、刘瑜一致推荐的当代英国天才女作家 。一部大胆的、光芒四射的小说。就天赋与灵气而言，少有作家能与珍妮特·温特森相比！',
-					}],
-				}, {
-					title: '经管',
-					detail: [{
-						name: '经济'
-					}, {
-						name: '管理'
-					}, {
-						name: '投资理财'
-					}, {
-						name: '股票'
-					}, {
-						name: '金融'
-					}, {
-						name: '市场/销售'
-					}, {
-						name: '会计'
-					}, {
-						name: '互联网'
-					}],
-					bookDetail: [{
-						img: require('./../../../static/1.jpg'),
-						name: '失乐园',
-						info: '渡边淳一代表作，长期雄踞日本畅销书排行榜榜首，由黑木瞳、役所广司主演的电影引发“失乐园”热。此次的全新林少华译本，将带你体味不一样的渡边淳一，不一样的失乐园。',
-					}, {
-						img: require('./../../../static/2.jpg'),
-						name: '我不',
-						info: '百万级畅销书作家大冰2017年新书！用温暖的故事结一段小善缘，陪你微笑着对命运说：我不！不屈不挠、不破不立，他们因不，而不同，乃至不凡！随书奉送20余首有钱也买不到的民谣。',
-					}],
-				}, {
-					title: '励志',
-					detail: [{
-						name: '励志/成功'
-					}, {
-						name: '心灵修养'
-					}, {
-						name: '职场'
-					}, {
-						name: '人生哲学'
-					}, {
-						name: '人际交往'
-					}, {
-						name: '口才/演讲/辩论'
-					}],
-					bookDetail: [{
-						img: require('./../../../static/3.jpg'),
-						name: '岛上书店',
-						info: '现象级全球畅销书！一年之内畅销美英德法日等30国！感动全球千万读者的阳光治愈小说！美国独立书商推荐阅读桂冠、美国图书馆推荐阅读桂冠。每个人的生命中，都有无比艰难的那一年，将人生变得美好而辽阔。读客出品',
-					}, {
-						img: require('./../../../static/4.jpg'),
-						name: '夏日终曲',
-						info: '2018奥斯卡获奖影片Call me by your name原著小说。十七岁的爱情以身伺火，三十七岁时却温暖余生 睽违二十年的漫长告白：请以你的名字呼唤我',
-					}],
-				}, ],
+					cate: '',
+					type: [],
+					bookDetail: [],
+				}],
 				// 轮播图
 				sliderImg: [{
 					img: require('./../../../static/sl1.jpg')
@@ -267,14 +104,42 @@
 				},]
 			};
 		},
+		created () {
+			this.getCategory()
+		},
 		methods: {
 			enter(index, title) {
 				this.nowHover = index
 				this.nowTitle = title
 			},
-			redirectToCate() {
-				this.$router.push({path:'/book'})
-			}
+			redirectToCate(cid) {
+				this.$axios
+					.get('/book?cid=' + cid)
+					.then((results) => {
+						console.log(results.data)
+						this.$router.push({
+							path: '/book',
+							name: 'book',
+							params: {typeid: cid},
+						})
+					})
+
+				// this.$route.push({path:'/xxx',params:{id:1}});
+			},
+			getCategory() {
+				this.$axios
+					.get('/category/all')
+					.then((results) => {
+						for (const key in results.data) {
+							results.data[key].cate = results.data[key].category
+							results.data[key].type =  results.data[key].type
+							results.data[key].bookDetail = []
+						}
+						this.category = results.data
+
+					})
+
+			},
 		}
 	}
 </script>

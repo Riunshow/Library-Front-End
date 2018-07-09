@@ -1,28 +1,38 @@
 <template>
-	<div class="bookDetail">
+	<div class="bookDetail" v-loading="booklistLoading">
 		<div class="bookMain">
 			<div class="bookHeader_left">
-				<span class="left_item active">最热</span>
-				<span class="left_item">最新</span>
+				<!-- <span class="left_item active">最热</span>
+				<span class="left_item">最新</span> -->
 			</div>
-			<div class="book_content">
+			<!-- 没有书 -->
+			<div v-if="booklist.count == 0">
+				该分类下暂无图书
+			</div>
+			<div class="book_content"  v-else>
 				<!-- 循环书 -->
-				<div class="one_book" v-for="(item,index) in 8" :key="index" @click="getBookId(index)">
+				<div class="one_book" v-for="(item,index) in booklist.rows" :key="index" @click="getBookId(index)">
 					<div class="downImg">
-						<img src="./../../../static/1.jpg" alt="">
+						<img :src="item.cover" :alt="item.name">
 					</div>
 					<div class="popModel">
-						<h3 class="bookname">失乐园</h3>
-						<span class="catename">玄幻奇幻</span>
+						<h3 class="bookname">{{item.name}}</h3>
+						<span class="catename">{{item.Category.type}}</span>
 						<div class="readCount">
-							<i class="el-icon-view"></i> 2333
+							<i class="el-icon-view"></i> {{item.views}}
 						</div> 
 						<div class="bookInfo">
-							<p>这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍这里是介绍</p>
+							<p>{{item.blurb}}</p>
 						</div>
 					</div>
 				</div>
+				<el-pagination
+						layout="prev, pager, next"
+						:total="50">
+				</el-pagination>
 			</div>
+
+			
 		</div>
 	</div>
 </template>
@@ -32,16 +42,39 @@
 	export default {
 		data() {
 			return {
-				currentDate: new Date()
+				currentDate: new Date(),
+				typeId: 0,
+				booklist: [],
+				booklistLoading: true,
 			};
 		},
+		created () {
+			this.getRouterId()
+		},
 		mounted() {
-			const _this = this
-			Bus.$on('msg', (e) => {
-				console.log(e);
+			// const _this = this
+			Bus.$on('cid', (e) => {
+				this.typeId = e
+				this.getBookList()
 			})
 		},
 		methods: {
+			getRouterId() {
+				if (this.$route.params.typeid) {
+					this.typeId = this.$route.params.typeid
+					this.getBookList()
+				}
+			},
+			getBookList() {
+				this.booklistLoading = true
+
+				this.$axios
+					.get('/book?cid='+this.typeId)
+					.then((results) => {
+						this.booklist = results.data
+						this.booklistLoading = false
+					})
+			},
 			getBookId(id) {
 				this.$router.push({path: `/bookinfo/${id}`})
 			}
@@ -143,6 +176,9 @@
 				}
 				.one_book:nth-child(5n+0) {
 					margin-right: -35px
+				}
+				.el-pagination {
+					text-align: center;
 				}
 			}
 		}
