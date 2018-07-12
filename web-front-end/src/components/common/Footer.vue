@@ -19,12 +19,14 @@
 		background-color: rgb(255,255,255);
 		height: 100px;
 		width: 100%;
-		margin-top: 50px;
+		// margin-top: 50px;
 		text-align: center;
 		p {
 			color: #555;
 			top: 50px;
 			position: relative;
 		}
+		position: relative;
+		bottom: 0;
 	}
 </style>

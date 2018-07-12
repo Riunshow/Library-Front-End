@@ -3,33 +3,33 @@
 		<img src="./../../../static/logo.png" alt="">
 		<div class="personInfo">
 			<div class="name">
-				user
+				{{userinfo.nickname}}
 			</div>
 			<div class="info">
 				<ul>
 					<li>
 						<p>读书时长</p>
-						<p>213h</p>
+						<p>{{userinfo.readingTime}}</p>
 					</li>
 					<li>
 						<p>积分</p>
-						<p>2000</p>
+						<p>{{userinfo.integral}}</p>
 					</li>
-					<li>
+					<!-- <li>
 						<p>粉丝</p>
 						<router-link to="/myself/fans">
-							<p>20</p>
+							<p>{{userinfo.readingTime}}</p>
 						</router-link>
 					</li>
 					<li>
 						<p>关注</p>
 						<router-link to="/myself/follows">
-							<p>20</p>
+							<p>{{userinfo.readingTime}}</p>
 						</router-link>
-					</li>
-					<li>
+					</li> -->
+					<!-- <li>
 						<el-button type="primary" size="mini" plain>签到</el-button>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 		</div>
@@ -39,7 +39,17 @@
 <script>
 	export default {
 		data() {
-			return {};
+			return {
+				userinfo: {}
+			};
+		},
+		created () {
+			this.getUserInfo()
+		},
+		methods: {
+			getUserInfo() {
+				this.userinfo = JSON.parse(sessionStorage.user)
+			}
 		}
 	}
 </script>

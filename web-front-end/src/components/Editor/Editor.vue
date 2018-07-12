@@ -6,18 +6,18 @@
 					<span class="optName">写文章</span>
 					<span class="saveContent">{{autoSave}}</span>
 					<span class="otherOpt">
-												<el-dropdown>
-													<span class="el-dropdown-link">· · ·</span>
-					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item>草稿</el-dropdown-item>
-						<el-dropdown-item>我的文章</el-dropdown-item>
-						<router-link to="/ground">
-							<el-dropdown-item>回到操场</el-dropdown-item>
-						</router-link>
-					</el-dropdown-menu>
+					<el-dropdown>
+						<span class="el-dropdown-link">· · ·</span>
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item>草稿</el-dropdown-item>
+							<el-dropdown-item>我的文章</el-dropdown-item>
+							<router-link to="/ground">
+								<el-dropdown-item>回到操场</el-dropdown-item>
+							</router-link>
+						</el-dropdown-menu>
 					</el-dropdown>
 					</span>
-					<span class="optPublish"><el-button type="text">发布</el-button></span>
+					<span class="optPublish"><el-button @click="publishArticle()" type="text">发布</el-button></span>
 				</div>
 			</el-header>
 			<el-main>
@@ -68,6 +68,16 @@
 			}
 		},
 		methods: {
+			publishArticle() {
+				this.$axios
+					.post('community',{
+						title:  this.title,
+						content: this.content,
+					})
+					.then((results) => {
+						console.log(results.data)
+					})
+			},
 			handleImageAdded() {
 				// var formData = new FormData();
 				// formData.append('image', file)

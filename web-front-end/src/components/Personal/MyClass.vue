@@ -3,16 +3,18 @@
 		<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router>
 			<el-menu-item index="/myself/nearlyread">最近阅读</el-menu-item>
 			<el-menu-item index="/myself/mycollect">我的收藏</el-menu-item>
-			<el-menu-item index="/myself/fans">我的粉丝</el-menu-item>
-			<el-menu-item index="/myself/follows">我的关注</el-menu-item>
+			<!-- <el-menu-item index="/myself/fans">我的粉丝</el-menu-item>
+			<el-menu-item index="/myself/follows">我的关注</el-menu-item> -->
 		</el-menu>
 		<div class="personal_block">
 			<router-view></router-view>
 		</div>
+
 	</div>
 </template>
 
 <script>
+
 	export default {
 		data() {
 			return {
@@ -44,12 +46,12 @@
 <style lang="scss" scoped>
 	#my_class {
 		width: 800px;
-		height: 100%;
+		// height: 100%;
 		margin-left: auto;
 		margin-right: auto;
 		.el-menu {
-			width: 384px;
-			background-color: rgb(244, 244, 244);
+			// width: 384px;
+			// background-color: rgb(244, 244, 244) !important;
 			.is-active {
 				background-color: rgb(244, 244, 244);
 			}

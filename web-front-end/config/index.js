@@ -23,6 +23,10 @@ module.exports = {
                 target: 'http://sb:7001',
                 // changeOrigin: true
             },
+            '/community': {
+                target: 'http://sb:7001',
+                // changeOrigin: true
+            },
         },
 
         // Various Dev Server settings

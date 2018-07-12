@@ -6,12 +6,12 @@
 				<span class="left_item">最新</span> -->
 			</div>
 			<!-- 没有书 -->
-			<div v-if="booklist.count == 0">
+			<div class="noBook" v-if="booklist.count == 0">
 				该分类下暂无图书
 			</div>
 			<div class="book_content"  v-else>
 				<!-- 循环书 -->
-				<div class="one_book" v-for="(item,index) in booklist.rows" :key="index" @click="getBookId(index)">
+				<div class="one_book" v-for="(item,index) in booklist.rows" :key="index" @click="getBookId(item.id)">
 					<div class="downImg">
 						<img :src="item.cover" :alt="item.name">
 					</div>
@@ -26,13 +26,14 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			<div class="bottomPage" v-if="booklist.count !== 0">
 				<el-pagination
-						layout="prev, pager, next"
-						:total="50">
+					layout="prev, pager, next"
+					@current-change="handleCurrentChange"
+					:total="bookCount">
 				</el-pagination>
 			</div>
-
-			
 		</div>
 	</div>
 </template>
@@ -46,6 +47,7 @@
 				typeId: 0,
 				booklist: [],
 				booklistLoading: true,
+				bookCount: 0,
 			};
 		},
 		created () {
@@ -71,13 +73,26 @@
 				this.$axios
 					.get('/book?cid='+this.typeId)
 					.then((results) => {
+						this.bookCount = results.data.count
 						this.booklist = results.data
 						this.booklistLoading = false
 					})
 			},
 			getBookId(id) {
 				this.$router.push({path: `/bookinfo/${id}`})
-			}
+			},
+			// 分页
+            handleCurrentChange(val) {
+				this.booklistLoading = true
+                this.currentPageSave = val
+                this.$axios
+                    .get(`/book?cid=${this.typeId}&offset=${val-1}`)
+                    .then((results) => {
+						this.booklist = results.data
+						this.booklistLoading = false						
+                    })
+                
+            },
 		}
 	}
 </script>
@@ -106,6 +121,9 @@
 					color: #f01414;
 				}
 			}
+			.noBook {
+				height: 400px;
+			}
 			.book_content {
 				display: flex;
 				flex-direction: row;
@@ -118,6 +136,8 @@
 					margin-top: 15px;
 					color: #787d82;
 					.downImg {
+						width: 200px;
+						height: 200px;
 						img {
 							width: 200px;
 							height: 200px;
@@ -177,9 +197,12 @@
 				.one_book:nth-child(5n+0) {
 					margin-right: -35px
 				}
-				.el-pagination {
-					text-align: center;
-				}
+
+			}
+			.bottomPage {
+				text-align: center;
+				margin-top: 20px;
+				padding-bottom: 20px;
 			}
 		}
 	}

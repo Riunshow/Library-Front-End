@@ -2,16 +2,16 @@
 	<div class="nearlyRead">
 		<div class="readDetail" v-for="(item, index) in book">
 			<div class="nearlyTime">
-				<span class="year">{{item.year}}</span>
-				<span class="monthAday">{{item.date}}</span>
+				<span class="year">{{new Date(item.updated_at).getFullYear()}}</span>
+				<span class="monthAday">{{ `${new Date(item.updated_at).getMonth()}月 ${new Date(item.updated_at).getDate()}日` }}</span>
 			</div>
 			<div class="bookInfo">
-				<img :src="item.img" alt="">
+				<img :src="item.cover" alt="">
 				<div class="detailInfo">
 					<span class="bookName">{{item.name}}</span>
-					<span class="readProgress">已读 {{item.progress}}</span>
-					<span class="readRecord">读到 {{item.where}}</span>
-					<span class="continueRead"><el-button type="text">继续阅读</el-button></span>
+					<span class="readProgress">{{item.author}}</span>
+					<span class="readRecord">{{item.company}}</span>
+					<!-- <span class="continueRead"><el-button type="text">继续阅读</el-button></span> -->
 				</div>
 			</div>
 		</div>
@@ -30,10 +30,10 @@
 		},
 		methods: {
 			getNearlyBook() {
-				const _this = this
-				this.$axios.get('/user/mycollect')
+				this.$axios.get('/user/collect')
 					.then((result) => {
-						_this.book = result.data
+						console.log(result.data.collection)
+						this.book = result.data.collection
 					}).catch((err) => {
 						console.log(err);
 					});

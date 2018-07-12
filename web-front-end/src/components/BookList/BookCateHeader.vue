@@ -3,30 +3,6 @@
 		<div class="wrap">
 			<div class="top">
 				<div class="categoryContent">
-					<!-- 
-					方向
-					<div class="cate_row">
-						<span class="cate_name">方向:</span>
-						<div class="cate_detail">
-							<ul>
-								<li v-for="(item, index) in direction" :key="index">
-									<span class="directionInfo" :class="resultDirect === index?'active':''" @click="getClickDirect(index)">{{item.title}}</span>
-								</li>
-							</ul>
-						</div>
-					</div>
-					分类
-					<div class="cate_row">
-						<span class="cate_name">分类:</span>
-						<div class="cate_detail">
-							<ul>
-								<li v-for="(item, index) in direction[whichItem].detail" :key="index">
-									<span class="directionInfo" :class="resultCate === index?'active':''" @click="getClickCate(index)">{{item.name}}</span>
-								</li>
-							</ul>
-						</div>
-					</div>
-					-->
 					<div class="cate_row">
 						<span class="cate_name">方向:</span>
 						<div class="cate_detail">

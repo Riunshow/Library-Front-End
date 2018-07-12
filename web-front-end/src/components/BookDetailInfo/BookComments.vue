@@ -10,24 +10,45 @@
 			<div class="comment_head">
 				<span class="isActive">最热</span>
 				<span>最新</span>
+				<el-button type="text" @click="isLogin()">发表评论</el-button>
 			</div>
-			<div class="comment_main" v-for="item in 8">
+			<!-- 有评论 -->
+			<div class="comment_main" v-for="item in commentList" v-if="commentList.length !== 0">
 				<div class="whoawhen">
-					<span>zpy</span>
-					<span>2018-4-4</span>
+					<span>{{item.commentAuthor.nickname}}</span>
+					<span>{{`${new Date(item.updated_at).getFullYear()}/${new Date(item.updated_at).getMonth()}/${new Date(item.updated_at).getDay()}`}}</span>
 				</div>
 				<div class="content">
-					于大爷在此书提到了王世襄先生，让我不免惊喜。王先生是学者，把玩儿研究透了研究到头了，著作里透着知识分子的严谨。于大爷的书则多了几分市井气、江湖气。北京玩儿家的气象，能这么生生不息代代地传承下来，真好。
+					{{item.content}}
 				</div>
 				<div class="footer">
-					<el-button icon="el-icon-caret-top" size="mini" type="primary" plain>13</el-button>
-					<el-button icon="el-icon-caret-bottom" size="mini" type="primary" plain></el-button>
+					<!-- 喜欢 -->
+					<el-button v-if="!item.likedUser.status" @click="likedComment(item.id)" icon="el-icon-caret-top" size="mini" type="primary" plain>{{item.likedUser.count}}</el-button>
+					<el-button v-else @click="likedComment(item.id)" size="mini" type="primary" plain>已点赞 {{item.likedUser.count}}</el-button>
+					<!-- 不喜欢 -->
+					<el-button v-if="!item.unlikedUser.status" @click="unLikedComment(item.id)" icon="el-icon-caret-bottom" size="mini" type="primary" plain>{{item.unlikedUser.count}}</el-button>
+					<el-button v-else @click="unLikedComment(item.id)" icon="el-icon-caret-bottom" size="mini" type="primary" plain>已踩 {{item.unlikedUser.count}}</el-button>
 				</div>
 			</div>
+			<!-- 无评论 -->
+			<div class="comment_main" v-else>
+				无评论
+			</div>
 		</div>
-		<div class="pagination_bottom">
+		<el-dialog title="发表评论" :visible.sync="dialogComment">
+			<el-form :model="form">
+				<el-form-item label="评论内容" :label-width="formLabelWidth">
+					<el-input type="textarea" autosize v-model="form.comment" auto-complete="off"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="dialogComment = false">取 消</el-button>
+				<el-button type="primary" @click="submitComment">确 定</el-button>
+			</div>
+		</el-dialog>
+		<div class="pagination_bottom" v-if="commentList.length !== 0">
 			<div class="block">
-				<el-pagination background layout="prev, pager, next" :total="50">
+				<el-pagination background layout="prev, pager, next" :total="commentsCount" @current-change="handleCurrentChange">
 				</el-pagination>
 			</div>
 		</div>
@@ -38,7 +59,72 @@
 	export default {
 		data() {
 			return {
+				dialogComment: false,
+				formLabelWidth: '180',
+				form: {
+					comment: '',
+				},
+				commentList: [],
+				commentsCount: 0,
+				likeCount: 0,
+				isLike: true,
+				isUnLike: true,
 			};
+		},
+		created () {
+			this.getAllComment()	
+		},
+		methods: {
+			isLogin() {
+				if (sessionStorage.user) {
+					this.dialogComment = true
+				}else {
+					this.$message.error('请先登录');
+				}
+			},
+			submitComment() {
+				const bookId = this.$route.params.bookid
+				this.$axios
+					.post(`/book/${bookId}/comment`,{
+						content: this.form.comment
+					})
+					.then((result) => {
+						this.dialogComment = false
+						this.form.comment = ''
+						this.getAllComment()
+					})
+			},
+			getAllComment() {
+				const bookId = this.$route.params.bookid
+				this.$axios
+					.get(`/book/${bookId}/comment`)
+					.then((results) => {
+						this.commentsCount = results.data.count
+						this.commentList = results.data.rows
+					})
+			},
+			handleCurrentChange(val) {
+				const bookId = this.$route.params.bookid
+                this.$axios
+                    .get(`/book/${bookId}/comment?offset=${val-1}`)
+                    .then((results) => {
+						this.commentList = results.data.rows				
+                    })
+			},
+			likedComment(id) {
+				this.$axios
+					.get(`/book/comment/${id}/like`)
+					.then((results) => {
+						this.getAllComment()
+					})
+			},
+			unLikedComment(id) {
+				this.$axios
+					.get(`/book/comment/${id}/unlike`)
+					.then((results) => {
+						this.getAllComment()
+					})
+			},
 		}
 	}
 </script>
