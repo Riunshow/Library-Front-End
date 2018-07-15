@@ -12,7 +12,16 @@
 			</div>
 		</div>
 		<!-- 发表内容 -->
-		<msg-model v-for="(item, index) in message" :key="index" :title="item.title" :content="item.content" :commentsCount="item.commentsCount" :agreeCount="item.agreeCount" :comments="item.comments" />
+		<msg-model v-for="(item, index) in message" 
+			:key="index" 
+			:title="item.title" 
+			:content="item.content" 
+			:commentsCount="item.CommunityComments.length" 
+			:agreeCount="item.agreeCount" 
+			:comments="item.comments"
+			:author="item.author"
+			:createTime="item.created_at"
+			/>
 		<!-- 结束 -->
 	</div>
 </template>
@@ -36,13 +45,11 @@
 				this.$router.push({path: '/write'})
 			},
 			getAticle() {
-				const _this = this
-				this.$axios.get('/article')
+				this.$axios
+					.get('/community')
 					.then((result) => {
-						_this.message = result.data
-					}).catch((err) => {
-						console.log(err);
-					});
+						this.message = result.data.rows
+					})
 
 			}
 		}

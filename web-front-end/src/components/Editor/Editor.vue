@@ -9,8 +9,8 @@
 					<el-dropdown>
 						<span class="el-dropdown-link">· · ·</span>
 						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item>草稿</el-dropdown-item>
-							<el-dropdown-item>我的文章</el-dropdown-item>
+							<!-- <el-dropdown-item>草稿</el-dropdown-item>
+							<el-dropdown-item>我的文章</el-dropdown-item> -->
 							<router-link to="/ground">
 								<el-dropdown-item>回到操场</el-dropdown-item>
 							</router-link>

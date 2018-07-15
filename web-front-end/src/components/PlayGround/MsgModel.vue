@@ -3,21 +3,20 @@
 		<div class="detailMsg">
 			<div class="msgContent">
 				<div class="msgTime">
-					zpy发布了消息 · 5 小时前
+					{{author.nickname}}发布了消息
 				</div>
 				<div class="contentInfo">
 					<div class="contentTitle">
 						<h2>{{title}}</h2>
 					</div>
 					<div class="content">
-						<p>
-							{{showData}}
-							<el-button type="text" class="readAll" @click="showAll = !showAll" v-show="!showAll">{{openWord}}<i class="el-icon-arrow-down"></i></el-button>
-						</p>
+						<div v-html="showData"></div>
+							<!-- {{showData}} -->
+						<el-button type="text" class="readAll" @click="showAll = !showAll" v-show="!showAll">{{openWord}}<i class="el-icon-arrow-down"></i></el-button>
 					</div>
 				</div>
 				<div class="publishTime" v-show="showAll">
-					发布于 09:39
+					发布于 {{`${new Date(createTime).getFullYear()} - ${new Date(createTime).getMonth()} - ${new Date(createTime).getDay()}`}}
 				</div>
 				<div class="msgFooter">
 					<el-button class="setFloat" type="primary" plain size="mini" icon="el-icon-caret-top">{{agreeCount}}</el-button>
@@ -97,6 +96,8 @@
 			commentsCount: Number,
 			agreeCount: Number,
 			comments: Array,
+			author: Object,
+			createTime: String,
 		},
 		data() {
 			return {
@@ -189,13 +190,14 @@
 						padding: 5px 0;
 					}
 					.content {
-						p {
+						div {
 							width: 100%;
 							height: 100%;
 							font-size: 14px;
 							position: relative;
 							line-height: 30px;
 							overflow: hidden;
+							word-wrap:break-word;
 							.readAll {
 								padding: 0;
 							}
