@@ -8,7 +8,7 @@
 		<div class="reply" v-show="isShowReply">
 			<el-input v-model="typeReply" type="textarea" autosize placeholder="请输入回复内容" clearable></el-input>
 			<div class="replyOpt">
-				<el-button size="small" type="primary" plain>提交</el-button>
+				<el-button size="small" type="primary" plain @click="commitReply(to, article_id)">提交</el-button>
 				<el-button size="small" type="danger" plain @click="isShowReply = !isShowReply">取消</el-button>
 			</div>
 		</div>
@@ -19,12 +19,31 @@
 	export default {
 		props: {
 			likes: String,
+			to: String,
+			article_id: Number
 		},
 		data() {
 			return {
 				typeReply: '',
 				isShowReply: false,
 			};
+		},
+		methods: {
+			commitReply (nickname, article_id) {
+				if (this.typeReply === '') {
+					this.$message({
+						message: '输入内容不能为空!',
+						type: 'warning'
+					});
+				}
+				this.$axios
+					.post(`/community/${article_id}`, {
+						content: `@${nickname}  ${this.typeReply}`
+					})
+					.then((result) => {
+						window.location.reload() 						
+					})
+			}
 		}
 	}
 </script>

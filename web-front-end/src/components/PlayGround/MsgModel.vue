@@ -16,7 +16,7 @@
 					</div>
 				</div>
 				<div class="publishTime" v-show="showAll">
-					发布于 {{`${new Date(createTime).getFullYear()} - ${new Date(createTime).getMonth()} - ${new Date(createTime).getDay()}`}}
+					发布于 {{`${new Date(createTime).getFullYear()} - ${new Date(createTime).getMonth()} - ${new Date(createTime).getDay()+1}`}}
 				</div>
 				<div class="msgFooter">
 					<el-button class="setFloat" type="primary" plain size="mini" icon="el-icon-caret-top">{{agreeCount}}</el-button>
@@ -55,14 +55,14 @@
 						<div class="comments_list" v-for="(item, index) in comments">
 							<div class="comment_item">
 								<div class="item_head">
-									<span class="item_left comment_from_img"><img :src="item.headImg" alt=""></span>
-									<span class="item_left comment_from">{{item.name}}</span>
-									<span class="item_right comment_time">{{item.time}}</span>
+									<span class="item_left comment_from_img"><img :src="item.commentator.avatar||'https://avatars0.githubusercontent.com/u/19502268?s=40&v=4'" alt=""></span>
+									<span class="item_left comment_from">{{item.commentator.nickname}}</span>
+									<span class="item_right comment_time">{{item.created_at}}</span>
 								</div>
 								<div class="item_info">
 									<span>{{item.content}}</span>
 								</div>
-								<reply-model :likes="item.like" />
+								<reply-model :likes="item.like" :to="item.commentator.nickname" :article_id="article_id" />
 							</div>
 						</div>
 						<!-- 分页 -->
@@ -75,7 +75,7 @@
 						<!-- 输入评论 -->
 						<div class="input_comment">
 							<el-input v-model="typeContent" type="textarea" autosize placeholder="请输入评论内容" clearable></el-input>
-							<el-button size="small" type="primary" plain>提交</el-button>
+							<el-button size="small" type="primary" plain @click="commitComment(article_id)">提交</el-button>
 						</div>
 					</div>
 				</div>
@@ -91,6 +91,7 @@
 			ReplyModel
 		},
 		props: {
+			article_id: Number,
 			title: String,
 			content: String,
 			commentsCount: Number,
@@ -155,13 +156,36 @@
 			},
 		},
 		methods: {
-			changeSorter: function() {
+			changeSorter () {
 				if (this.commentsCount <= 5) {
 					this.showSorter = false
 				} else {
 					this.showSorter = true
 				}
 			},
+			commitComment (aid) {
+				if (this.typeContent === '') {
+					this.$message({
+						message: '输入内容不能为空!',
+						type: 'warning'
+					});
+				}
+				if (sessionStorage.user) {
+					this.$axios
+						.post(`/community/${aid}`, {
+							content: this.typeContent
+						})
+						.then((result) => {
+							window.location.reload() 
+						})
+				}else {
+					this.$message({
+						message: '请登录后再试!',
+						type: 'warning'
+					});
+				}
+				
+			}
 		}
 	}
 </script>

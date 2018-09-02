@@ -13,12 +13,13 @@
 		</div>
 		<!-- 发表内容 -->
 		<msg-model v-for="(item, index) in message" 
-			:key="index" 
+			:key="index"
+			:article_id="item.id"
 			:title="item.title" 
 			:content="item.content" 
 			:commentsCount="item.CommunityComments.length" 
 			:agreeCount="item.agreeCount" 
-			:comments="item.comments"
+			:comments="item.CommunityComments"
 			:author="item.author"
 			:createTime="item.created_at"
 			/>

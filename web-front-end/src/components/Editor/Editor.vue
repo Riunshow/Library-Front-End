@@ -76,6 +76,7 @@
 					})
 					.then((results) => {
 						console.log(results.data)
+						this.$router.push('/ground')
 					})
 			},
 			handleImageAdded() {

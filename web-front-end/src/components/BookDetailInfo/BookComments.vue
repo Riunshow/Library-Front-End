@@ -16,7 +16,7 @@
 			<div class="comment_main" v-for="item in commentList" v-if="commentList.length !== 0">
 				<div class="whoawhen">
 					<span>{{item.commentAuthor.nickname}}</span>
-					<span>{{`${new Date(item.updated_at).getFullYear()}/${new Date(item.updated_at).getMonth()}/${new Date(item.updated_at).getDay()}`}}</span>
+					<span>{{`${new Date(item.updated_at).getFullYear()}/${new Date(item.updated_at).getMonth() + 1}/${new Date(item.updated_at).getDate()}`}}</span>
 				</div>
 				<div class="content">
 					{{item.content}}
