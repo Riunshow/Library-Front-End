@@ -21,6 +21,13 @@ const router = new Router({
             requireAuth: true
         }
     }, {
+        path: '/myarticle',
+        name: 'MyArticle',
+        component: require('@/components/PlayGround/MyArticle').default,
+        meta: {
+            requireAuth: true
+        }
+    }, {
         path: '/myself',
         name: 'PersonalPage',
         component: require('@/components/Personal/PersonalPage').default,

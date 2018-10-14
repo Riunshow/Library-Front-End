@@ -8,6 +8,9 @@
 			<div class="info">
 				<ul>
 					<li>
+						<el-button type="text">签到</el-button>
+					</li>
+					<li>
 						<p>读书时长</p>
 						<p>{{userinfo.readingTime}}</p>
 					</li>

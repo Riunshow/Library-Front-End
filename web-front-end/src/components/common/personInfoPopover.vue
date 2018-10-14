@@ -1,21 +1,27 @@
 <template>
 	<div class="personCenter" @click="feature()">
 		<div class="info">
-			<img src="./../../../static/logo.png" alt="">
+			<img :src="useravatar" alt="">
 			<h2>{{username}}</h2>
 			<p>读书时长: {{readingTime}} </p>
 			<p>积分: {{integral}}</p>
 		</div>
 		<div class="category">
 			<ul>
-				<router-link to="/myself/nearlyread">
+				<router-link to="/myself/mycollect">
 					<li>
 						<i class="el-icon-tickets"></i>我的书籍
 					</li>
 				</router-link>
-				<li><i class="el-icon-goods"></i>订单中心</li>
-				<li><i class="el-icon-menu"></i>积分商城</li>
-				<li><i class="el-icon-setting"></i>个人设置</li>
+				<router-link to="/myarticle">
+					<li>
+						<i class="el-icon-goods"></i>我的文章
+					</li>
+				</router-link>
+				<router-link to="/write">
+					<li><i class="el-icon-menu"></i>写文章</li>
+				</router-link>
+				<!-- <li><i class="el-icon-setting"></i>个人设置</li> -->
 			</ul>
 		</div>
 		<div class="memory">
@@ -40,6 +46,7 @@
 			return {
 				username: '', // 用户名字
 				readingTime: '', // 读书时长
+				useravatar: '',
 				integral: '', // 积分
 				recentBook: { // 最近阅读 
 					title: '', // 书名
@@ -59,6 +66,7 @@
 				if (sessionStorage.user) {
 					const user = JSON.parse(sessionStorage.user)
 					this.username = user.nickname;
+					this.useravatar = user.avatar
 					this.readingTime = user.readingTime;
 					this.integral = user.integral;
 					// 判断用户是否有最近阅读记录
@@ -88,7 +96,7 @@
 					})
 			},
 			feature() {
-				this.$message('暂未开发,敬请期待');
+				// this.$message('暂未开发,敬请期待');
 			}
 		}
 	}

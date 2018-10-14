@@ -2,14 +2,11 @@
 	<div id="messageModel">
 		<div class="msgOpt">
 			<div class="detailOpt" @click="routeToWrite">
-				<i class="el-icon-edit"></i> 写想法
+				<i class="el-icon-edit"></i> 写文章
 			</div>
-			<div class="detailOpt">
-				<i class="el-icon-edit-outline"></i> 写文章
-			</div>
-			<div class="draft">
+			<!-- <div class="draft">
 				草稿
-			</div>
+			</div> -->
 		</div>
 		<!-- 发表内容 -->
 		<msg-model v-for="(item, index) in message" 
@@ -22,6 +19,8 @@
 			:comments="item.CommunityComments"
 			:author="item.author"
 			:createTime="item.created_at"
+			:likeNum="item.likedUser.length"
+			:unlickNum="item.unlikedUser.length"
 			/>
 		<!-- 结束 -->
 	</div>

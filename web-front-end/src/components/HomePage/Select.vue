@@ -116,11 +116,11 @@
 				this.$axios
 					.get('/book?cid=' + cid)
 					.then((results) => {
-						console.log(results.data)
 						this.$router.push({
 							path: '/book',
-							name: 'book',
-							params: {typeid: cid},
+							query: {
+								typeid: cid
+							},
 						})
 					})
 
@@ -136,7 +136,6 @@
 							results.data[key].bookDetail = []
 						}
 						this.category = results.data
-
 					})
 
 			},

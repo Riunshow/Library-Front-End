@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="item_options" v-show="!isShowReply">
-			<span><el-button icon="el-icon-caret-top" size="mini" plain>{{likes}}</el-button></span>
+			<!-- <span><el-button icon="el-icon-caret-top" size="mini" plain>{{likes}}</el-button></span> -->
 			<span @click="isShowReply = !isShowReply"><i class="el-icon-edit"></i>回复</span>
 			<span><i class="el-icon-phone-outline"></i>举报</span>
 		</div>

@@ -69,15 +69,19 @@
 		},
 		methods: {
 			publishArticle() {
-				this.$axios
-					.post('community',{
-						title:  this.title,
-						content: this.content,
-					})
-					.then((results) => {
-						console.log(results.data)
-						this.$router.push('/ground')
-					})
+				if (this.title == '' || this.content == '') {
+					this.$message.error("标题或内容不能为空")
+				}else {
+					this.$axios
+						.post('community',{
+							title:  this.title,
+							content: this.content,
+						})
+						.then((results) => {
+							console.log(results.data)
+							this.$router.push('/ground')
+						})
+				}
 			},
 			handleImageAdded() {
 				// var formData = new FormData();

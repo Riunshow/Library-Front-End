@@ -10,18 +10,18 @@
 			<el-menu-item index="/book">书库</el-menu-item>
 		</el-menu>
 		<!-- 搜索框 -->
-		<el-input placeholder="请输入图书名称" v-model="search" clearable></el-input>
+		<!-- <el-input placeholder="请输入图书名称" v-model="search" clearable></el-input> -->
 		<el-row>
 			<!-- 已登录 -->
 			<div v-if="isLogin">
 				<el-popover ref="popoverInfo" placement="bottom" width="300" v-model="info" trigger="hover">
 					<personal-info />
 				</el-popover>
-				<img src="./../../../static/logo.png" alt="" v-popover:popoverInfo>
+				<img :src="user.avatar" alt="" v-popover:popoverInfo>
 				<!-- 通知 -->
-				<el-badge is-dot class="item">
+				<!-- <el-badge is-dot class="item">
 					<i class="el-icon-bell"></i>
-				</el-badge>
+				</el-badge> -->
 				<el-button class="download" round icon="el-icon-download" v-popover:appupload>下载APP</el-button>
 			</div>
 			<!-- 未登录 -->
@@ -105,6 +105,7 @@
 				isLogin: false,
 				dialogFormLogin: false,
 				dialogFormLRegister: false,
+				user: {},
 				registerForm: {
 					id: '',
 					pass: '',
@@ -192,14 +193,16 @@
 					account: this.loginForm.id,
 					password: this.loginForm.password
 				}).then(results => {
-					console.log(results.data)
 					// error为false, 则设置登录
 					results.data.error === false ? this.isLogin = true : this.isLogin = false
 					sessionStorage.user = JSON.stringify(results.data.data.user)
+					this.user = JSON.parse(sessionStorage.user)
+					console.log(this.user)
 				}).catch((err) => {
 					// this.$message.error(err.response.data.data);
 					console.log(err);
 					this.dialogFormLogin = true
+					this.$message.error('用户名或密码错误');
 				})
 			},
 			// 判断是否登录,展示 用户信息 或 登录注册

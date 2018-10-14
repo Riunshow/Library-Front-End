@@ -19,8 +19,11 @@
 					发布于 {{`${new Date(createTime).getFullYear()} - ${new Date(createTime).getMonth()} - ${new Date(createTime).getDay()+1}`}}
 				</div>
 				<div class="msgFooter">
-					<el-button class="setFloat" type="primary" plain size="mini" icon="el-icon-caret-top">{{agreeCount}}</el-button>
-					<el-button class="setFloat" type="primary" plain size="mini" icon="el-icon-caret-bottom"></el-button>
+					<!-- like -->
+					<!-- <el-button v-if="islike" @click="like(article_id)" class="setFloat" type="primary" plain size="mini" icon="el-icon-caret-top">{{likeNum}}</el-button>
+					<el-button v-else @click="like(article_id)" class="setFloat" size="mini" type="primary" plain>已点赞 {{likeNum}}</el-button> -->
+					<!-- unlike -->
+					<!-- <el-button @click="unlike(article_id)" class="setFloat" type="primary" plain size="mini" icon="el-icon-caret-bottom">{{unlikeNum}}</el-button> -->
 					<div class="footer_comments setFloat" v-if="commentsCount == 0" @click="showComments = !showComments">
 						<i class="el-icon-document"></i> {{inputCommentWord}}
 					</div>
@@ -48,7 +51,7 @@
 								{{commentsCount}} 条评论
 							</div>
 							<div class="comments_title_right" @click="timeSort = !timeSort">
-								​<i class="el-icon-sort"></i>切换为{{changeSort}}
+								<!-- ​<i class="el-icon-sort"></i>切换为{{changeSort}} -->
 							</div>
 						</div>
 						<!-- 评论主体 -->
@@ -99,6 +102,8 @@
 			comments: Array,
 			author: Object,
 			createTime: String,
+			likeNum: Number,
+			unlikeNum: Number,
 		},
 		data() {
 			return {
@@ -156,6 +161,22 @@
 			},
 		},
 		methods: {
+			like(article_id) {
+				this.$axios
+					.get(`/community/${article_id}/like`)
+					.then(res => {
+						this.islike = res.data
+						location.reload()
+					})
+			},
+			unlike(article_id) {
+				this.$axios
+					.get(`/community/${article_id}/unlike`)
+					.then(res => {
+						this.islike = res.data
+						location.reload()						
+					})
+			},
 			changeSorter () {
 				if (this.commentsCount <= 5) {
 					this.showSorter = false

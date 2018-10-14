@@ -1,6 +1,6 @@
 <template>
-	<div id="opt" @click="feature()">
-		<div class="opt_head">
+	<div id="opt">
+		<!-- <div class="opt_head">
 			<ul>
 				<li>
 					<i class="el-icon-goods"></i>书城
@@ -15,15 +15,15 @@
 					<i class="el-icon-service"></i>咨询
 				</li>
 			</ul>
-		</div>
+		</div> -->
 		<!--  -->
 		<div class="opt_footer">
 			<div class="opt_footer_block">
 				<ul>
-					<li><i class="el-icon-star-on"></i>我的收藏</li>
-					<li><i class="el-icon-question"></i>我关注的文章</li>
-					<li><i class="el-icon-phone"></i>我的邀请</li>
-					<li><i class="el-icon-more"></i>更多</li>
+					<li @click="redirectToMyCollect()"><i class="el-icon-star-on"></i>我的收藏</li>
+					<li @click="redirectToMyArticle()"><i class="el-icon-question"></i>我发表的文章</li>
+					<!-- <li><i class="el-icon-phone"></i>我的邀请</li> -->
+					<li @click="feature()"><i class="el-icon-more"></i>更多内容敬请期待</li>
 					<li>© 2018 Powered By <a target="_blanck" href="https://github.com/Riunshow">Rainbower</a></li>
 				</ul>
 			</div>
@@ -39,6 +39,18 @@
 		methods: {
 			feature() {
 				this.$message('暂未开发,敬请期待');
+			},
+			redirectToMyCollect() {
+				console.log(1);
+				this.$router.push({
+					path: '/myself/mycollect'
+				})
+			},
+			redirectToMyArticle() {
+				console.log(1);
+				this.$router.push({
+					path: '/myarticle'
+				})
 			}
 		}
 	}

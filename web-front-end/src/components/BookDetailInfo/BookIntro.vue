@@ -6,8 +6,17 @@
 				<el-breadcrumb-item>{{bookInfo.name}}</el-breadcrumb-item>
 			</el-breadcrumb>
 			<div class="collection">
-				 <el-button v-if="!bookInfo.collection.status"  @click="collectBook()" type="primary" size="mini">收藏</el-button>
-				 <el-button v-else @click="unCollectBook()" type="primary" size="mini">已收藏</el-button>
+				 <!-- <el-button v-if="!bookInfo.collection.status"  @click="collectBook()" type="primary" size="mini">收藏</el-button>
+				 <el-button v-else @click="unCollectBook()" type="primary" size="mini">已收藏</el-button> -->
+				 未收藏
+				 <el-switch
+				 	:disabled="checkIsLogin"
+				 	@change="isCollectBook"
+					v-model="bookInfo.collection.status"
+					active-color="#13ce66"
+					inactive-color="#ff4949">
+				</el-switch>
+				已收藏
 			</div>
 		</div>
 		<div class="book_intro_header">
@@ -61,6 +70,15 @@
 			this.getBookId()
 			this.getBookInfo()
 		},
+		computed: {
+			checkIsLogin() {
+				if(sessionStorage.user) {
+					return false
+				}else {
+					return true
+				}
+			}
+		},
 		methods: {
 			getBookId() {
 				this.bookId = this.$route.params.bookid
@@ -72,6 +90,15 @@
 						this.bookInfo = result.data
 					})
 			},
+			isCollectBook() {
+				const isCollectBookStatus = this.bookInfo.collection.status
+				console.log(isCollectBookStatus);
+				if (isCollectBookStatus) {
+					this.collectBook()
+				}else {
+					this.unCollectBook()
+				}
+			},
 			collectBook() {
 				if (sessionStorage.user) {
 					this.$axios
@@ -79,7 +106,7 @@
 						bid: this.bookId
 					})
 					.then((results) => {
-						this.getBookInfo()
+						// this.getBookInfo()
 					})
 				}else {
 					this.$message.error('请先登录');
@@ -91,7 +118,7 @@
 					this.$axios
 					.delete(`/user/collect/${this.bookId}`)
 					.then((results) => {
-						this.getBookInfo()
+						// this.getBookInfo()
 					})
 				}else {
 					this.$message.error('请先登录');
